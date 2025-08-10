@@ -101,6 +101,16 @@ body {
   font-weight: 800;
 }
 
+
+@media (orientation: landscape) and (max-height: 600px){
+  body{ place-items: start center; }
+  .app{ margin-top: 12px; margin-bottom: 24px; }
+}
+/* Soporte iOS Safari para alturas dinámicas */
+@supports (-webkit-touch-callout: none){
+  body{ min-height: -webkit-fill-available; }
+}
+
 </style>
 </head>
 <body>
@@ -460,4 +470,5 @@ document.addEventListener('visibilitychange', ()=>{
 </script>
 </body>
 </html>
+
 
