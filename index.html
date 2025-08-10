@@ -38,6 +38,13 @@ audio#player{width:100%;margin-top:8px;display:none}
 .playerUI .controls .square{font-size:14px} /* stop icon (square) */
 .playerUI .progress{flex:1;min-width:180px}
 .playerUI input[type="range"]{width:100%}
+
+#screen-chapters {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: auto;
+}
+
 </style>
 </head>
 <body>
@@ -229,11 +236,20 @@ function showPlayer(collectionKey,chapterIndex,url){
 let currentCollection=null,pendingChapterIndex=null;
 function status(msg,ok=false){ statusBox.innerHTML=msg? (ok?`<span class="ok">${msg}</span>`:`<span class="err">${msg}</span>`):''; }
 function goToMain(){ screenCh.classList.add('hidden'); screenMain.classList.remove('hidden'); status(''); try{player.pause();}catch(_){} document.getElementById('playerContainer').innerHTML=''; }
-function goToChapters(collection){
-  currentCollection=collection;
-  // Uppercase adventure title as requested
-  chaptersTitle.textContent=String(collection).toUpperCase();
-  screenMain.classList.add('hidden'); screenCh.classList.remove('hidden'); status('');
+function goToChapters(collection) {
+  currentCollection = collection;
+  chaptersTitle.textContent = String(collection).toUpperCase();
+  screenMain.classList.add('hidden'); 
+  screenCh.classList.remove('hidden'); 
+  status('');
+
+  // Fondo según la aventura
+  const backgrounds = {
+      'Loud Laugh': 'https://files.catbox.moe/ppjfrm.jpg',
+      'Mard March': 'https://files.catbox.moe/iodwo5.jpg',
+      'Red Radiance': 'https://files.catbox.moe/htdl8o.jpg'
+  };
+  screenCh.style.backgroundImage = backgrounds[collection] ? `url("${backgrounds[collection]}")` : 'none';
 }
 
 // ===== Simple UI sounds =====
