@@ -8,7 +8,9 @@
 <style>
 :root{--bg:#070a0f;--panel:#0c1119;--panel2:#0e1420;--muted:#8c98b1;--text:#e6ebf5;--accent:#37e1ff;--danger:#ff5e6b;--ok:#32f0a1;--warn:#ffc95a;--glow:rgba(55,225,255,.35)}
 *{box-sizing:border-box}html,body{height:100%}body{margin:0;font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--text);background:radial-gradient(1200px 800px at 15% -10%,#0e1320 0%,#070a0f 60%,#070a0f 100%);display:grid;place-items:center;overflow:hidden}
-.app{position:relative;width:min(1100px,95vw);padding:22px}
+.app{position:relative;width:min(1100px,95vw);padding:22px
+  padding-top:calc( (100vw * 166 / 1920) + 20px );
+}
 header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 h1{margin:0;font-size:clamp(16px,3.3vw,22px);letter-spacing:.6px;text-shadow:0 0 8px var(--glow)}
 .spacer{flex:1}.langbtn{cursor:pointer;background:linear-gradient(180deg,var(--panel) 0%,var(--panel2) 100%);border:1px solid #1a2233;color:var(--text);padding:8px 10px;border-radius:10px;font-weight:800}.langbtn.active{border-color:#2b9ab0;box-shadow:0 0 18px 0 var(--glow)}
@@ -47,16 +49,34 @@ audio#player{width:100%;margin-top:8px;display:none}
 
 
 #bg{position:fixed;inset:0;background-repeat:no-repeat;background-position:center center;background-size:auto;z-index:0;pointer-events:none}
-.app{position:relative;z-index:1}
+.app{position:relative;z-index:1
+  padding-top:calc( (100vw * 166 / 1920) + 20px );
+}
 .chapter-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .chapter-header .title{flex:1;margin:0}
 .iconbtn{cursor:pointer;background:transparent;border:1px solid #1a2233;color:var(--text);padding:6px 10px;border-radius:999px;font-size:18px;line-height:1}
 .iconbtn:hover{border-color:#2b9ab0;box-shadow:0 0 10px var(--glow)}
 .iconbtn:active{transform:scale(0.98)}
+
+/* Top banner: always full width */
+#topBanner{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:auto;
+  display:block;
+  z-index:999;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+
+
 </style>
 </head>
 <body>
 <div id="bg" aria-hidden="true"></div>
+<img id="topBanner" src="https://files.catbox.moe/8vw6a7.png" alt="SANCTORVM banner" />
 <div class="app">
   <header>
     <h1 data-i18n="app_title">ARCHIVOS SONOROS</h1>
@@ -307,4 +327,5 @@ applyI18N();
 </script>
 </body>
 </html>
+
 
