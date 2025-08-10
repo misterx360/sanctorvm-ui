@@ -9,8 +9,7 @@
 :root{--bg:#070a0f;--panel:#0c1119;--panel2:#0e1420;--muted:#8c98b1;--text:#e6ebf5;--accent:#37e1ff;--danger:#ff5e6b;--ok:#32f0a1;--warn:#ffc95a;--glow:rgba(55,225,255,.35)}
 *{box-sizing:border-box}html,body{height:100%}body{margin:0;font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--text);background:radial-gradient(1200px 800px at 15% -10%,#0e1320 0%,#070a0f 60%,#070a0f 100%);display:grid;place-items:center;overflow:hidden}
 .app{position:relative;width:min(1100px,95vw);padding:22px
-  padding-top:calc( (100vw * 166 / 1920) + 20px );
-}
+  }
 header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 h1{margin:0;font-size:clamp(16px,3.3vw,22px);letter-spacing:.6px;text-shadow:0 0 8px var(--glow)}
 .spacer{flex:1}.langbtn{cursor:pointer;background:linear-gradient(180deg,var(--panel) 0%,var(--panel2) 100%);border:1px solid #1a2233;color:var(--text);padding:8px 10px;border-radius:10px;font-weight:800}.langbtn.active{border-color:#2b9ab0;box-shadow:0 0 18px 0 var(--glow)}
@@ -50,8 +49,7 @@ audio#player{width:100%;margin-top:8px;display:none}
 
 #bg{position:fixed;inset:0;background-repeat:no-repeat;background-position:center center;background-size:auto;z-index:0;pointer-events:none}
 .app{position:relative;z-index:1
-  padding-top:calc( (100vw * 166 / 1920) + 20px );
-}
+  }
 .chapter-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .chapter-header .title{flex:1;margin:0}
 .iconbtn{cursor:pointer;background:transparent;border:1px solid #1a2233;color:var(--text);padding:6px 10px;border-radius:999px;font-size:18px;line-height:1}
@@ -60,13 +58,11 @@ audio#player{width:100%;margin-top:8px;display:none}
 
 /* Top banner: always full width */
 #topBanner{
-  position:fixed;
-  top:0;
-  left:0;
+  display:block;
+  margin:0 auto 14px auto;
   width:100%;
   height:auto;
-  display:block;
-  z-index:999;
+  max-width:1100px; /* match card's max width */
   user-select:none;
   -webkit-user-drag:none;
 }
@@ -76,8 +72,8 @@ audio#player{width:100%;margin-top:8px;display:none}
 </head>
 <body>
 <div id="bg" aria-hidden="true"></div>
-<img id="topBanner" src="https://files.catbox.moe/8vw6a7.png" alt="SANCTORVM banner" />
 <div class="app">
+<img id="topBanner" src="https://files.catbox.moe/8vw6a7.png" alt="SANCTORVM banner" />
   <header>
     <h1 data-i18n="app_title">ARCHIVOS SONOROS</h1>
     <div class="spacer"></div>
@@ -258,6 +254,7 @@ function ensurePlayerUI(collectionKey,chapterIndex){
 
 function playSample(url){ try{player.pause();}catch(_){} player.src=url; player.load(); player.play().catch(()=>{}); }
 function showPlayer(collectionKey,chapterIndex,url){
+  currentChapterIndex = chapterIndex;
   ensurePlayerUI(collectionKey,chapterIndex);
   // we keep native controls hidden to avoid cramped layout on mobile
   player.controls=false; player.style.display='none';
@@ -265,7 +262,7 @@ function showPlayer(collectionKey,chapterIndex,url){
 }
 
 // ===== State & UI =====
-let currentCollection=null,pendingChapterIndex=null;
+let currentCollection=null,pendingChapterIndex=null,currentChapterIndex=null;
 function status(msg,ok=false){ statusBox.innerHTML=msg? (ok?`<span class="ok">${msg}</span>`:`<span class="err">${msg}</span>`):''; }
 function goToMain(){ screenCh.classList.add('hidden'); screenMain.classList.remove('hidden'); status(''); try{player.pause();}catch(_){} document.getElementById('playerContainer').innerHTML=''; document.getElementById('bg').style.backgroundImage='none'; }
 function goToChapters(collection) {
@@ -313,9 +310,29 @@ function verifyPassword(){
   }
 }
 
+
+function syncAudioToLanguage(){
+  if(currentCollection==null || currentChapterIndex==null) return;
+  const wasPaused = player.paused;
+  const prevTime = isNaN(player.currentTime) ? 0 : player.currentTime;
+  const newUrl = resolveSampleUrl(LANG,currentCollection,currentChapterIndex);
+  if(!newUrl) return;
+  player.src = newUrl;
+  player.load();
+  player.onloadedmetadata = ()=>{
+    try{ player.currentTime = Math.min(prevTime, isNaN(player.duration)?0:player.duration-0.25); }catch(_){}
+    if(!wasPaused){ player.play().catch(()=>{}); }
+  };
+  // Update label of custom player
+  if(playerUI){
+    const label = playerUI.querySelector('.label');
+    if(label){ label.textContent = (LANG==='es'?'Reproductor: ':'Player: ') + `${currentCollection} · ${I18N[LANG].chapter(currentChapterIndex+1)}`; }
+  }
+}
+
 // ===== Events =====
-document.getElementById('btn-es').addEventListener('click',()=>{LANG='es';localStorage.setItem('lang','es');applyI18N();});
-document.getElementById('btn-en').addEventListener('click',()=>{LANG='en';localStorage.setItem('lang','en');applyI18N();});
+document.getElementById('btn-es').addEventListener('click',()=>{LANG='es';localStorage.setItem('lang','es');applyI18N();syncAudioToLanguage();});
+document.getElementById('btn-en').addEventListener('click',()=>{LANG='en';localStorage.setItem('lang','en');applyI18N();syncAudioToLanguage();});
 document.getElementById('collections').addEventListener('click',e=>{const b=e.target.closest('button[data-collection]'); if(!b) return; playUISound(); goToChapters(b.dataset.collection);});
 backBtn.addEventListener('click',()=>{playUISound(); goToMain();});
 document.getElementById('chapters').addEventListener('click',e=>{const b=e.target.closest('button.chapter'); if(!b||!currentCollection) return; playUISound(); const idx=parseInt(b.dataset.ch,10)-1; openPasswordModal(currentCollection,idx);});
@@ -327,5 +344,3 @@ applyI18N();
 </script>
 </body>
 </html>
-
-
