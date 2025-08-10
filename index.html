@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Specimen Console ▷ Access‑Controlled Chapters</title>
+<title>ARCHIVOS SONOROS ▷ SANCTORVM</title>
 <meta name="description" content="Standalone demo: password-gated chapters with Catbox audio and sci‑fi UI." />
 <style>
 :root{--bg:#070a0f;--panel:#0c1119;--panel2:#0e1420;--muted:#8c98b1;--text:#e6ebf5;--accent:#37e1ff;--danger:#ff5e6b;--ok:#32f0a1;--warn:#ffc95a;--glow:rgba(55,225,255,.35)}
@@ -27,50 +27,94 @@ audio#player{width:100%;margin-top:8px;display:none}
 .modal .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
 .welcome{display:flex;gap:10px;align-items:center;padding:10px 12px;border:1px solid #1b2a44;border-radius:12px;background:linear-gradient(180deg,#0b121e,#0f1828);margin-bottom:10px}
 .welcome b{color:#9be8ff}
+/* New: chapter note italics + color */
+.italic-note{font-style:italic;color:var(--warn);margin-top:8px}
+/* New: custom player UI pinned to bottom and full width */
+#playerContainer{margin-top:12px}
+.playerUI{border:1px solid #1b2a44;border-radius:12px;padding:10px 12px;background:linear-gradient(180deg,#0b121e,#0f1828)}
+.playerUI .label{font-size:13px;color:var(--muted);margin-bottom:8px}
+.playerUI .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.playerUI .controls button{padding:8px 10px;border-radius:10px;font-weight:900}
+.playerUI .controls .square{font-size:14px} /* stop icon (square) */
+.playerUI .progress{flex:1;min-width:180px}
+.playerUI input[type="range"]{width:100%}
 </style>
 </head>
 <body>
 <div class="app">
   <header>
-    <h1 data-i18n="app_title">Specimen Console ▷ Access-Controlled Chapters</h1>
+    <h1 data-i18n="app_title">ARCHIVOS SONOROS</h1>
     <div class="spacer"></div>
     <button id="btn-es" class="langbtn active" title="Español">🇪🇸 ES</button>
     <button id="btn-en" class="langbtn" title="English">🇬🇧 EN</button>
   </header>
 
   <section id="screen-main" class="card">
-    <div class="welcome"><span>🧪</span><div id="welcome-text">Bienvenido/a. Selecciona una colección. <b>Las contraseñas no distinguen mayúsculas/minúsculas</b>.</div></div>
-    <p class="title" data-i18n="main_menu">Main Menu</p>
+    <div class="welcome"><span>🧪</span><div id="welcome-text">Bienvenido/a a los archivos sonoros de SANCTORVM. Selecciona una aventura para ver sus capítulos.</div></div>
+    <p class="title" data-i18n="main_menu">AVENTURAS</p>
     <div class="grid3" id="collections"></div>
-    <p class="muted" style="margin-top:12px" data-i18n="subtitle">Choose a collection to view its chapters. (Passwords are NOT case sensitive).</p>
+    <!-- Subtitle removed as requested -->
   </section>
 
   <section id="screen-chapters" class="card hidden">
-    <button id="btn-back" class="back">⟵ <span data-i18n="back">Back to menu</span></button>
+    <button id="btn-back" class="back">⟵ <span data-i18n="back">Volver al menú</span></button>
     <p class="title"><span id="chapters-title"></span></p>
     <div class="grid5" id="chapters"></div>
+    <p id="chapter-note" class="italic-note">(Selecciona un capítulo)</p>
     <div id="status" class="status"></div>
-    <div id="playerArea" class="row" style="margin-top:6px"></div>
+    <!-- Player pinned at the very bottom -->
+    <div id="playerContainer"></div>
   </section>
 </div>
 
 <div id="modal" class="modal" role="dialog" aria-modal="true">
   <div class="box">
-    <h2 id="modal-title">Enter password</h2>
+    <h2 id="modal-title">Introduce la contraseña</h2>
     <p class="muted" id="modal-sub">&nbsp;</p>
-    <div class="field"><input id="modal-input" type="password" placeholder="Exact password" /></div>
-    <div class="actions"><button id="modal-cancel" class="accent">Cancel</button><button id="modal-ok" class="accent">Confirm</button></div>
+    <div class="field"><input id="modal-input" type="password" placeholder="Contraseña exacta" /></div>
+    <div class="actions"><button id="modal-cancel" class="accent">Cancelar</button><button id="modal-ok" class="accent">Confirmar</button></div>
     <div id="modal-msg" class="status"></div>
   </div>
 </div>
 
-<audio id="player"></audio>
+<!-- native audio (hidden) -->
+<audio id="player" preload="metadata"></audio>
 
 <script>
 // ===== I18N =====
 const I18N={
-  es:{app_title:'Consola del Laboratorio ▷ Capítulos con contraseña',main_menu:'Menú principal',subtitle:'Elige una colección para ver sus capítulos. (Las contraseñas NO distinguen mayúsculas/minúsculas).',back:'Volver al menú',prompt_title:'Introduce la contraseña',prompt_hint:'La contraseña NO distingue mayúsculas/minúsculas.',prompt_placeholder:'Contraseña exacta',prompt_cancel:'Cancelar',prompt_ok:'Confirmar',status_ok:'¡Correcto! Reproduciendo audio…',status_bad:'Contraseña incorrecta 😅',chapter:n=>`Capítulo ${n}`,select_chapter:'Selecciona capítulo',welcome:'Bienvenido/a. Selecciona una colección. <b>Las contraseñas no distinguen mayúsculas/minúsculas</b>.'},
-  en:{app_title:'Lab Console ▷ Password-Gated Chapters',main_menu:'Main Menu',subtitle:'Choose a collection to view its chapters. (Passwords are NOT case sensitive).',back:'Back to menu',prompt_title:'Enter password',prompt_hint:'Password is NOT case sensitive.',prompt_placeholder:'Exact password',prompt_cancel:'Cancel',prompt_ok:'Confirm',status_ok:'Correct! Playing audio…',status_bad:'Wrong password 😅',chapter:n=>`Chapter ${n}`,select_chapter:'Select chapter',welcome:'Welcome. Pick a collection. <b>Passwords are not case sensitive</b>.'}
+  es:{
+    app_title:'ARCHIVOS SONOROS',
+    main_menu:'AVENTURAS',
+    back:'Volver al menú',
+    prompt_title:'Introduce la contraseña',
+    prompt_hint:'La contraseña NO distingue mayúsculas/minúsculas.',
+    prompt_placeholder:'Contraseña exacta',
+    prompt_cancel:'Cancelar',
+    prompt_ok:'Confirmar',
+    status_ok:'¡Correcto! Reproduciendo audio…',
+    status_bad:'Contraseña incorrecta 😅',
+    chapter:n=>`Capítulo ${n}`,
+    select_chapter:'Selecciona capítulo',
+    welcome:'Bienvenido/a a los archivos sonoros de SANCTORVM. Selecciona una aventura para ver sus capítulos.',
+    select_note:'(Selecciona un capítulo)'
+  },
+  en:{
+    app_title:'SOUND FILES',
+    main_menu:'ADVENTURES',
+    back:'Back to menu',
+    prompt_title:'Enter password',
+    prompt_hint:'Password is NOT case sensitive.',
+    prompt_placeholder:'Exact password',
+    prompt_cancel:'Cancel',
+    prompt_ok:'Confirm',
+    status_ok:'Correct! Playing audio…',
+    status_bad:'Wrong password 😅',
+    chapter:n=>`Chapter ${n}`,
+    select_chapter:'Select chapter',
+    welcome:'Welcome to SANCTORVM sound files. Pick an adventure to view its chapters.',
+    select_note:'(Select a chapter)'
+  }
 };
 const COLLECTION_KEYS=['Loud Laugh','Mard March','Red Radiance'];
 let LANG=localStorage.getItem('lang')||'es';
@@ -86,6 +130,8 @@ const modalInput=document.getElementById('modal-input');
 const modalOk=document.getElementById('modal-ok');
 const modalCancel=document.getElementById('modal-cancel');
 const player=document.getElementById('player');
+const chapterNote=document.getElementById('chapter-note');
+const playerContainer=document.getElementById('playerContainer');
 
 function applyI18N(){
   const t=I18N[LANG]; document.documentElement.lang=LANG;
@@ -99,6 +145,8 @@ function applyI18N(){
   modalInput.placeholder=t.prompt_placeholder; modalCancel.textContent=t.prompt_cancel; modalOk.textContent=t.prompt_ok;
   document.getElementById('btn-es').classList.toggle('active',LANG==='es');
   document.getElementById('btn-en').classList.toggle('active',LANG==='en');
+  // update chapter note text
+  chapterNote.textContent=t.select_note;
 }
 function buildChapters(){ const t=I18N[LANG]; const wrap=document.getElementById('chapters'); wrap.innerHTML=''; for(let i=1;i<=5;i++){ const b=document.createElement('button'); b.className='chapter'; b.dataset.ch=String(i); b.textContent=t.chapter(i); wrap.appendChild(b);} }
 
@@ -119,19 +167,74 @@ function resolveSampleUrl(lang,key,idx){
   return null;
 }
 
-// ===== Player =====
+// ===== Player (custom UI) =====
+let playerUI=null, playBtn=null, stopBtn=null, progress=null;
+function ensurePlayerUI(collectionKey,chapterIndex){
+  if(playerUI){ playerUI.remove(); playerUI=null; }
+  playerUI=document.createElement('div');
+  playerUI.className='playerUI';
+  const label=document.createElement('div');
+  label.className='label';
+  label.textContent=(LANG==='es'?'Reproductor: ':'Player: ')+`${collectionKey} · ${I18N[LANG].chapter(chapterIndex+1)}`;
+  const controls=document.createElement('div');
+  controls.className='controls';
+  playBtn=document.createElement('button');
+  playBtn.textContent='▶︎/⏸';
+  stopBtn=document.createElement('button');
+  stopBtn.innerHTML='<span class="square">■</span>';
+  progress=document.createElement('input');
+  progress.className='progress';
+  progress.type='range'; progress.min=0; progress.max=1000; progress.value=0; progress.step=1;
+
+  controls.appendChild(playBtn);
+  controls.appendChild(stopBtn);
+  controls.appendChild(progress);
+
+  playerUI.appendChild(label);
+  playerUI.appendChild(controls);
+  playerContainer.appendChild(playerUI);
+
+  // handlers
+  playBtn.onclick=()=>{
+    if(player.paused) player.play().catch(()=>{});
+    else player.pause();
+  };
+  stopBtn.onclick=()=>{
+    player.pause();
+    try{ player.currentTime=0; }catch(_){}
+  };
+  progress.oninput=(e)=>{
+    if(player.duration && !isNaN(player.duration)){
+      const ratio=Number(progress.value)/1000;
+      player.currentTime=player.duration*ratio;
+    }
+  };
+  player.addEventListener('timeupdate',()=>{
+    if(player.duration && !isNaN(player.duration)){
+      const ratio=player.currentTime/player.duration;
+      progress.value=Math.round(ratio*1000);
+    }
+  });
+}
+
 function playSample(url){ try{player.pause();}catch(_){} player.src=url; player.load(); player.play().catch(()=>{}); }
-function showPlayer(collectionKey,chapterIndex){
-  const area=document.getElementById('playerArea'); if(!area) return;
-  const label=(LANG==='es'?'Reproductor: ':'Player: ')+`${collectionKey} · ${I18N[LANG].chapter(chapterIndex+1)}`;
-  area.innerHTML=`<div class="muted">${label}</div>`; player.controls=true; player.style.display='block'; if(player.parentNode!==area) area.appendChild(player);
+function showPlayer(collectionKey,chapterIndex,url){
+  ensurePlayerUI(collectionKey,chapterIndex);
+  // we keep native controls hidden to avoid cramped layout on mobile
+  player.controls=false; player.style.display='none';
+  if(url){ playSample(url); }
 }
 
 // ===== State & UI =====
 let currentCollection=null,pendingChapterIndex=null;
 function status(msg,ok=false){ statusBox.innerHTML=msg? (ok?`<span class="ok">${msg}</span>`:`<span class="err">${msg}</span>`):''; }
-function goToMain(){ screenCh.classList.add('hidden'); screenMain.classList.remove('hidden'); status(''); try{player.pause();}catch(_){} player.controls=false; player.style.display='none'; document.getElementById('playerArea').innerHTML=''; }
-function goToChapters(collection){ currentCollection=collection; chaptersTitle.textContent=`${collection} · ${I18N[LANG].select_chapter}`; screenMain.classList.add('hidden'); screenCh.classList.remove('hidden'); status(''); }
+function goToMain(){ screenCh.classList.add('hidden'); screenMain.classList.remove('hidden'); status(''); try{player.pause();}catch(_){} document.getElementById('playerContainer').innerHTML=''; }
+function goToChapters(collection){
+  currentCollection=collection;
+  // Uppercase adventure title as requested
+  chaptersTitle.textContent=String(collection).toUpperCase();
+  screenMain.classList.add('hidden'); screenCh.classList.remove('hidden'); status('');
+}
 
 // ===== Simple UI sounds =====
 let audioCtx=null; function getCtx(){ if(!audioCtx){ const AC=window.AudioContext||window.webkitAudioContext; try{audioCtx=new AC();}catch(e){return {currentTime:0,createOscillator:null};} } if(audioCtx.state==='suspended') audioCtx.resume?.(); return audioCtx; }
@@ -155,7 +258,7 @@ function verifyPassword(){
   if((given||'').toLowerCase()===(expected||'').toLowerCase()){
     const url=resolveSampleUrl(LANG,currentCollection,idx);
     status(I18N[LANG].status_ok,true);
-    if(url){ playSample(url); showPlayer(currentCollection,idx); } else { playUISound(); } // fallback
+    showPlayer(currentCollection,idx,url); // now always at the bottom with custom UI
     closePasswordModal();
   }else{
     document.getElementById('modal-msg').innerHTML=`<span class="err">${I18N[LANG].status_bad}</span>`; playFart();
@@ -176,4 +279,3 @@ applyI18N();
 </script>
 </body>
 </html>
-
