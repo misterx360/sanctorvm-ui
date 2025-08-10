@@ -42,12 +42,20 @@ audio#player{width:100%;margin-top:8px;display:none}
 
 #screen-chapters {
     background-repeat: no-repeat;
-    background-position: center center;
+    background-position: top center;
     background-size: auto;
 }
 
 
-#bg{position:fixed;inset:0;background-repeat:no-repeat;background-position:center center;background-size:auto;z-index:0;pointer-events:none}
+#bg {
+    position: fixed;
+    inset: 0;
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: auto;
+    z-index: 0;
+    pointer-events: none;
+}
 .app{position:relative;z-index:1
   }
 .chapter-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
@@ -344,3 +352,4 @@ applyI18N();
 </script>
 </body>
 </html>
+
