@@ -40,22 +40,10 @@ audio#player{width:100%;margin-top:8px;display:none}
 .playerUI .progress{flex:1;min-width:180px}
 .playerUI input[type="range"]{width:100%}
 
-#screen-chapters {
-    background-repeat: no-repeat;
-    background-position: top center;
-    background-size: auto;
-}
 
 
-#bg {
-    position: fixed;
-    inset: 0;
-    background-repeat: no-repeat;
-    background-position: top center;
-    background-size: auto;
-    z-index: 0;
-    pointer-events: none;
-}
+
+
 .app{position:relative;z-index:1
   }
 .chapter-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
@@ -75,6 +63,15 @@ audio#player{width:100%;margin-top:8px;display:none}
   -webkit-user-drag:none;
 }
 
+
+
+body {
+    background-image: url("https://files.catbox.moe/opgeq4.jpg");
+    background-repeat: no-repeat;
+    background-position: top right;
+    background-size: cover;
+    background-color: var(--bg);
+}
 
 </style>
 </head>
@@ -286,7 +283,7 @@ function goToChapters(collection) {
       'Mard March': 'https://files.catbox.moe/iodwo5.jpg',
       'Red Radiance': 'https://files.catbox.moe/htdl8o.jpg'
   };
-  document.getElementById('bg').style.backgroundImage = backgrounds[collection] ? `url("${backgrounds[collection]}")` : 'none';
+  
 }
 
 // ===== Simple UI sounds =====
