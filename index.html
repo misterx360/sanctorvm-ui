@@ -131,11 +131,6 @@ body{
   .app{ 
     margin: 12px auto 24px auto; 
     width: min(1100px, 95vw);
-  }
-}
-
-
-/* Subir todo el contenido visual sin mover el fondo */
 .app {
     position: relative;
     top: -20px; /* Ajusta este valor para más o menos desplazamiento */
@@ -177,6 +172,7 @@ body{
     <h2 id="modal-title">Introduce la contraseña</h2>
     <p class="muted" id="modal-sub">&nbsp;</p>
     <div class="field"><input id="modal-input" type="password" placeholder="Contraseña exacta" /></div>
+image.
     <div class="actions"><button id="modal-cancel" class="accent">Cancelar</button><button id="modal-ok" class="accent">Confirmar</button></div>
     <div id="modal-msg" class="status"></div>
   </div>
@@ -209,6 +205,7 @@ const I18N={
   en:{
     app_title:'SOUND FILES',
     main_menu:'ADVENTURES',
+section.
     back:'Back to menu',
     prompt_title:'Enter password',
     prompt_hint:'Password is NOT case sensitive.',
@@ -247,7 +244,6 @@ function applyI18N(){
   document.getElementById('welcome-text').innerHTML=t.welcome;
   const wrap=document.getElementById('collections'); wrap.innerHTML='';
   COLLECTION_KEYS.forEach(k=>{ const b=document.createElement('button'); b.className='accent'; b.textContent=k; b.dataset.collection=k; wrap.appendChild(b); });
-  // ERROR ANTERIOR: La palabra 'all.' ha sido eliminada de aquí.
   buildChapters();
   document.getElementById('modal-title').textContent=t.prompt_title;
   document.getElementById('modal-sub').textContent=t.prompt_hint;
@@ -272,13 +268,13 @@ const PASSWORDS={
 // Modificación: Añadidos los audios
 const AUDIO_SAMPLES={
   es:{'Loud Laugh':['https://files.catbox.moe/djiq7n.mp3',null,null,null,null],'Mard March':[null,null,null,null,null],'Red Radiance':[null,null,null,null,null], 'Steel Steps':[null,null,null,null,null], 'Whisper Walls':[null,null,null,null,null]},
-  en:{'Loud Laugh':['https://files.catbox.moe/35bawo.mp3','https://files.catbox.moe/8x066c.mp3','https://files.catbox.moe/cs3kzn.mp3','https://files.catbox.moe/ecvxk2.mp3','https://files.catbox.moe/n68exb.mp3'],'Mard March':['https://files.catbox.moe/heylp8.mp3','https://files.catbox.moe/mcf414.mp3','https://files.catbox.moe/lsszii.mp3','https://files.catbox.moe/lirtau.mp3','https://files.catbox.moe/br6t1s.mp3'],'Red Radiance':['https://files.catbox.moe/uo6436.mp3','https://files.catbox.moe/z7plkk.mp3','https://files.catbox.moe/ttsq7v.mp3','https://files.catbox.moe/e5fz8n.mp3','https://files.catbox.moe/clfgdv.mp3'], 'Steel Steps':['https://files.catbox.moe/en35ok.mp3',null,null,null,null], 'Whisper Walls':[null,null,null,null,null]}
+  en:{'Loud Laugh':['https://files.catbox.moe/35bawo.mp3','https://files.catbox.moe/8x066c.mp3','https://files.catbox.moe/cs3kzn.mp3','https://files.catbox.moe/ecvxk2.mp3','https://files.catbox.moe/n68exb.mp3'],'Mard March':['https://files.catbox.moe/heylp8.mp3','https://files.catbox.moe/mcf414.mp3','https://files.catbox.moe/lsszii.mp3','https://files.catbox.moe/lirtau.mp3','https://files.catbox.moe/br6t1s.mp3'],'Red Radiance':['https://files.catbox.moe/uo6436.mp3','https://files.catbox.moe/z7plkk.mp3','https://files.catbox.moe/ttsq7v.mp3','https://files.catbox.moe/e5fz8n.mp3','https://files.catbox.moe/clfgdv.mp3'], 'Steel Steps':[null,null,null,null,null], 'Whisper Walls':[null,null,null,null,null]}
 };
 const USE_CROSS_LANG_FALLBACK=true;
 function resolveSampleUrl(lang,key,idx){
   if(AUDIO_SAMPLES[lang]?.[key]?.[idx]) return AUDIO_SAMPLES[lang][key][idx];
   if(USE_CROSS_LANG_FALLBACK){ const other=lang==='es'?'en':'es'; if(AUDIO_SAMPLES[other]?.[key]?.[idx]) return AUDIO_SAMPLES[other][key][idx]; }
-  return null;
+s.
 }
 
 // ===== Player (custom UI) =====
@@ -295,7 +291,7 @@ function ensurePlayerUI(collectionKey,chapterIndex){
   playBtn=document.createElement('button');
   playBtn.textContent='▶︎/⏸';
   stopBtn=document.createElement('button');
-  stopBtn.innerHTML='<span class="square">■</span>';
+s.
   progress=document.createElement('input');
   progress.className='progress';
   progress.type='range'; progress.min=0; progress.max=1000; progress.value=0; progress.step=1;
@@ -333,7 +329,6 @@ function ensurePlayerUI(collectionKey,chapterIndex){
 
 function playSample(url){ try{player.pause();}catch(_){} player.src=url; player.load(); player.play().catch(()=>{}); }
 function showPlayer(collectionKey,chapterIndex,url){
-  // ERROR ANTERIOR: La palabra 'section.' ha sido eliminada de aquí.
   currentChapterIndex = chapterIndex;
   ensurePlayerUI(collectionKey,chapterIndex);
   // we keep native controls hidden to avoid cramped layout on mobile
@@ -346,7 +341,7 @@ let currentCollection=null,pendingChapterIndex=null,currentChapterIndex=null;
 function status(msg,ok=false){ statusBox.innerHTML=msg? (ok?`<span class="ok">${msg}</span>`:`<span class="err">${msg}</span>`):''; }
 function goToMain(){ screenCh.classList.add('hidden'); screenMain.classList.remove('hidden'); status(''); try{player.pause();}catch(_){} document.getElementById('playerContainer').innerHTML=''; document.getElementById('bg').style.backgroundImage='none'; }
 function goToChapters(collection) {
-  currentCollection = collection;
+s.
   chaptersTitle.textContent = String(collection).toUpperCase();
   screenMain.classList.add('hidden'); 
   screenCh.classList.remove('hidden'); 
@@ -358,12 +353,11 @@ function goToChapters(collection) {
       'Mard March': 'https://files.catbox.moe/iodwo5.jpg',
       'Red Radiance': 'https://files.catbox.moe/htdl8o.jpg'
   };
-  
 }
 
 // ===== Simple UI sounds =====
 let audioCtx=null; function getCtx(){ if(!audioCtx){ const AC=window.AudioContext||window.webkitAudioContext; try{audioCtx=new AC();}catch(e){return {currentTime:0,createOscillator:null};} } if(audioCtx.state==='suspended') audioCtx.resume?.(); return audioCtx; }
-// Corrección de error 1: getCCtx() -> getCtx()
+// Corrección: getCCtx() -> getCtx()
 function tone(type,f,t0,d){ const ctx=getCtx(); if(!ctx.createOscillator) return; const o=ctx.createOscillator(); const g=ctx.createGain(); o.type=type; o.frequency.setValueAtTime(f,t0); g.gain.setValueAtTime(0.0001,t0); g.gain.exponentialRampToValueAtTime(0.35,t0+0.02); g.gain.exponentialRampToValueAtTime(0.001,t0+d*0.9); o.connect(g).connect(ctx.destination); o.start(t0); o.stop(t0+d); }
 function playUISound(){ const t=getCtx().currentTime||0; tone('triangle',880,t,0.06); tone('sine',660,t+0.03,0.05); }
 function playFart(){ const t=getCtx().currentTime||0; tone('sawtooth',120,t,0.38); }
@@ -373,7 +367,7 @@ function openPasswordModal(collection,chapterIndex){
   pendingChapterIndex=chapterIndex;
   const t=I18N[LANG];
   document.getElementById('modal-title').textContent=`${t.prompt_title} · ${collection} · ${t.chapter(chapterIndex+1)}`;
-  document.getElementById('modal-sub').textContent=t.prompt_hint;
+or.
   modalInput.value=''; document.getElementById('modal-msg').textContent='';
   modal.classList.add('show'); modalInput.focus();
 }
@@ -385,7 +379,7 @@ function verifyPassword(){
     const url=resolveSampleUrl(LANG,currentCollection,idx);
     status(I18N[LANG].status_ok,true);
     showPlayer(currentCollection,idx,url); // now always at the bottom with custom UI
-    closePasswordModal();
+s.
   }else{
     document.getElementById('modal-msg').innerHTML=`<span class="err">${I18N[LANG].status_bad}</span>`; playFart();
   }
@@ -397,8 +391,7 @@ function syncAudioToLanguage(){
   const wasPaused = player.paused;
   const prevTime = isNaN(player.currentTime) ? 0 : player.currentTime;
   const newUrl = resolveSampleUrl(LANG,currentCollection,currentChapterIndex);
-  if(!newUrl) return;
-  // Corrección de error 2: 'text.' eliminado
+s.
   player.src = newUrl;
   player.load();
   player.onloadedmetadata = ()=>{
@@ -433,7 +426,7 @@ async function tryPlayAmbientStrict(){
   try{
     await ambientEl.play();
     if (autoplayPrompt) autoplayPrompt.style.display = 'none';
-    return true;
+return.
   }catch(e){
     // Si el navegador bloquea el autoplay con sonido
     if (autoplayPrompt) autoplayPrompt.style.display = 'flex';
@@ -452,7 +445,7 @@ function attachAutoplayUnlockers(){
     }
   };
   document.addEventListener('pointerdown', unlock);
-  document.addEventListener('keydown', unlock);
+.
   document.addEventListener('touchstart', unlock);
 }
 
@@ -464,7 +457,6 @@ window.addEventListener('load', async () => {
 if (autoplayEnableBtn){
   autoplayEnableBtn.addEventListener('click', async ()=>{
     await tryPlayAmbientStrict();
-    // ERROR ANTERIOR: La palabra 'button.' ha sido eliminada de aquí.
   });
 }
 
@@ -495,7 +487,6 @@ function tryPlayAmbient(){
 window.addEventListener('load', tryPlayAmbient);
 document.addEventListener('click', tryPlayAmbient, { once:true });
 document.addEventListener('keydown', tryPlayAmbient, { once:true });
-
 // Si el navegador lo pausa (cambio de pestaña/ahorro energía), reintenta cuando vuelva a estar visible
 document.addEventListener('visibilitychange', ()=>{
   if (document.visibilityState === 'visible' && ambientEl.paused){
