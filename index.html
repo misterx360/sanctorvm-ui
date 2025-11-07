@@ -9,7 +9,7 @@
 :root{--bg:#070a0f;--panel:#0c1119;--panel2:#0e1420;--muted:#8c98b1;--text:#e6ebf5;--accent:#37e1ff;--danger:#ff5e6b;--ok:#32f0a1;--warn:#ffc95a;--glow:rgba(55,225,255,.35)}
 *{box-sizing:border-box}html,body{min-height:100%; height:auto}body{margin:0;font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--text);background:radial-gradient(1200px 800px at 15% -10%,#0e1320 0%,#070a0f 60%,#070a0f 100%);display:grid;place-items:center;overflow:hidden}
 .app{position:relative;width:min(1100px,95vw);padding:22px
-  }
+  }
 header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 h1{margin:0;font-size:clamp(16px,3.3vw,22px);letter-spacing:.6px;text-shadow:0 0 8px var(--glow)}
 .spacer{flex:1}.langbtn{cursor:pointer;background:linear-gradient(180deg,var(--panel) 0%,var(--panel2) 100%);border:1px solid #1a2233;color:var(--text);padding:8px 10px;border-radius:10px;font-weight:800}.langbtn.active{border-color:#2b9ab0;box-shadow:0 0 18px 0 var(--glow)}
@@ -45,7 +45,7 @@ audio#player{width:100%;margin-top:8px;display:none}
 
 
 .app{position:relative;z-index:1
-  }
+  }
 .chapter-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .chapter-header .title{flex:1;margin:0}
 .iconbtn{cursor:pointer;background:transparent;border:1px solid #1a2233;color:var(--text);padding:6px 10px;border-radius:999px;font-size:18px;line-height:1}
@@ -54,91 +54,91 @@ audio#player{width:100%;margin-top:8px;display:none}
 
 /* Top banner: always full width */
 #topBanner{
-  display:block;
-  margin:0 auto 14px auto;
-  width:100%;
-  height:auto;
-  max-width:1100px; /* match card's max width */
-  user-select:none;
-  -webkit-user-drag:none;
+  display:block;
+  margin:0 auto 14px auto;
+  width:100%;
+  height:auto;
+  max-width:1100px; /* match card's max width */
+  user-select:none;
+  -webkit-user-drag:none;
 }
 
 
 
 body {
-    background-image: url("https://files.catbox.moe/opgeq4.jpg");
-    background-repeat: no-repeat;
-    background-position: top right;
-    background-size: cover;
-    background-color: var(--bg);
+    background-image: url("https://files.catbox.moe/opgeq4.jpg");
+    background-repeat: no-repeat;
+    background-position: top right;
+    background-size: cover;
+    background-color: var(--bg);
 }
 
 
 /* ===== Autoplay prompt (solo si falla el autoplay) ===== */
 #autoplayPrompt{
-  position: fixed;
-  right: 14px;
-  bottom: 14px;
-  background: linear-gradient(180deg,#0b121e,#0f1828);
-  border:1px solid #1b2a44;
-  border-radius: 999px;
-  padding: 8px 12px;
-  display: none;
-  gap: 8px;
-  z-index: 300;
-  align-items: center;
-  box-shadow: 0 6px 24px rgba(0,0,0,.4);
-  font-size: 13px;
-  color: var(--text);
+  position: fixed;
+  right: 14px;
+  bottom: 14px;
+  background: linear-gradient(180deg,#0b121e,#0f1828);
+  border:1px solid #1b2a44;
+  border-radius: 999px;
+  padding: 8px 12px;
+  display: none;
+  gap: 8px;
+  z-index: 300;
+  align-items: center;
+  box-shadow: 0 6px 24px rgba(0,0,0,.4);
+  font-size: 13px;
+  color: var(--text);
 }
 #autoplayPrompt button{
-  cursor: pointer;
-  background: radial-gradient(120% 140% at 50% -40%,#152034 0%,#0c131f 60%);
-  border:1px solid #1a2438;
-  color: var(--text);
-  padding: 8px 10px;
-  border-radius: 999px;
-  font-weight: 800;
+  cursor: pointer;
+  background: radial-gradient(120% 140% at 50% -40%,#152034 0%,#0c131f 60%);
+  border:1px solid #1a2438;
+  color: var(--text);
+  padding: 8px 10px;
+  border-radius: 999px;
+  font-weight: 800;
 }
 
 
 @media (orientation: landscape) and (max-height: 600px){
-  body{ place-items: start center; }
-  .app{ margin-top: 12px; margin-bottom: 24px; }
+  body{ place-items: start center; }
+  .app{ margin-top: 12px; margin-bottom: 24px; }
 }
 /* Soporte iOS Safari para alturas dinámicas */
 @supports (-webkit-touch-callout: none){
-  body{ min-height: -webkit-fill-available; }
+  body{ min-height: -webkit-fill-available; }
 }
 
 
 /* Alturas dinámicas modernas + scroll vertical garantizado */
 body{
-  min-height: 100dvh;
-  min-height: 100svh;
-  min-height: 100vh;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-bottom: env(safe-area-inset-bottom, 16px); /* que no tape la barra/borde */
+  min-height: 100dvh;
+  min-height: 100svh;
+  min-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: env(safe-area-inset-bottom, 16px); /* que no tape la barra/borde */
 }
 
 
 @media (orientation: landscape){
-  body{ 
-    display: block;         /* evita el centrado por grid que limita el scroll */
-    place-items: initial;   /* por si queda aplicado */
-  }
-  .app{ 
-    margin: 12px auto 24px auto; 
-    width: min(1100px, 95vw);
-  }
+  body{ 
+    display: block;         /* evita el centrado por grid que limita el scroll */
+    place-items: initial;   /* por si queda aplicado */
+  }
+  .app{ 
+    margin: 12px auto 24px auto; 
+    width: min(1100px, 95vw);
+  }
 }
 
 
 /* Subir todo el contenido visual sin mover el fondo */
 .app {
-    position: relative;
-    top: -20px; /* Ajusta este valor para más o menos desplazamiento */
+    position: relative;
+    top: -20px; /* Ajusta este valor para más o menos desplazamiento */
 }
 
 </style>
@@ -147,41 +147,45 @@ body{
 <div id="bg" aria-hidden="true"></div>
 <div class="app">
 <img id="topBanner" src="https://files.catbox.moe/hhohzu.png" alt="SANCTORVM banner" />
-  <header>
-    <h1 data-i18n="app_title">ARCHIVOS SONOROS</h1>
-    <div class="spacer"></div>
-    <button id="btn-es" class="langbtn active" title="Español">ES</button>
-    <button id="btn-en" class="langbtn" title="English">EN</button>
-  </header>
+  <header>
+    <h1 data-i18n="app_title">ARCHIVOS SONOROS</h1>
+    <div class="spacer"></div>
+    <button id="btn-es" class="langbtn active" title="Español">ES</button>
+    <button id="btn-en" class="langbtn" title="English">EN</button>
+  </header>
 
-  <section id="screen-main" class="card">
-    <div class="welcome"><span>🧪</span><div id="welcome-text">Bienvenido/a a los archivos sonoros de SANCTORVM. Selecciona una aventura para ver sus capítulos.</div></div>
-    <p class="title" data-i18n="main_menu">AVENTURAS</p>
-    <div class="grid3" id="collections"></div>
-      </section>
+  <section id="screen-main" class="card">
+    <div class="welcome"><span>🧪</span><div id="welcome-text">Bienvenido/a a los archivos sonoros de SANCTORVM. Selecciona una aventura para ver sus capítulos.</div></div>
+    <p class="title" data-i18n="main_menu">AVENTURAS</p>
+    <div class="grid3" id="collections"></div>
+    <!-- Subtitle removed as requested -->
+  </section>
 
-  <section id="screen-chapters" class="card hidden">
-    <div class="chapter-header">
-      <p class="title"><span id="chapters-title"></span></p>
-      <button id="btn-back" class="iconbtn" title="Volver">⟵</button>
-    </div>
-    <div class="grid5" id="chapters"></div>
-    <p id="chapter-note" class="italic-note">(Selecciona un capítulo)</p>
-    <div id="status" class="status"></div>
-        <div id="playerContainer"></div>
-  </section>
+  <section id="screen-chapters" class="card hidden">
+    <div class="chapter-header">
+      <p class="title"><span id="chapters-title"></span></p>
+      <button id="btn-back" class="iconbtn" title="Volver">⟵</button>
+    </div>
+    <div class="grid5" id="chapters"></div>
+    <p id="chapter-note" class="italic-note">(Selecciona un capítulo)</p>
+    <div id="status" class="status"></div>
+    <!-- Player pinned at the very bottom -->
+    <div id="playerContainer"></div>
+  </section>
 </div>
 
 <div id="modal" class="modal" role="dialog" aria-modal="true">
-  <div class="box">
-    <h2 id="modal-title">Introduce la contraseña</h2>
-    <p class="muted" id="modal-sub">&nbsp;</p>
-    <div class="field"><input id="modal-input" type="password" placeholder="Contraseña exacta" /></div>
-    <div class="actions"><button id="modal-cancel" class="accent">Cancelar</button><button id="modal-ok" class="accent">Confirmar</button></div>
-    <div id="modal-msg" class="status"></div>
-  </div>
+  <div class="box">
+    <h2 id="modal-title">Introduce la contraseña</h2>
+    <p class="muted" id="modal-sub">&nbsp;</p>
+    <div class="field"><input id="modal-input" type="password" placeholder="Contraseña exacta" /></div>
+    <div class="actions"><button id="modal-cancel" class="accent">Cancelar</button><button id="modal-ok" class="accent">Confirmar</button></div>
+    <div id="modal-msg" class="status"></div>
+  </div>
 </div>
 
+<!-- native audio (hidden) -->
+<!-- Ambient loop audio (hidden) -->
 <audio id="ambient" autoplay playsinline preload="auto" loop style="display:none"></audio>
 <div id="autoplayPrompt">🔊 El sonido está pausado por tu navegador <button id="autoplayEnable">Activar sonido</button></div>
 
@@ -361,7 +365,7 @@ function goToChapters(collection) {
 
 // ===== Simple UI sounds =====
 let audioCtx=null; function getCtx(){ if(!audioCtx){ const AC=window.AudioContext||window.webkitAudioContext; try{audioCtx=new AC();}catch(e){return {currentTime:0,createOscillator:null};} } if(audioCtx.state==='suspended') audioCtx.resume?.(); return audioCtx; }
-function tone(type,f,t0,d){ const ctx=getCtx(); if(!ctx.createOscillator) return; const o=ctx.createOscillator(); const g=ctx.createGain(); o.type=type; o.frequency.setValueAtTime(f,t0); g.gain.setValueAtTime(0.0001,t0); g.gain.exponentialRampToValueAtTime(0.35,t0+0.02); g.gain.exponentialRampToValueAtTime(0.001,t0+d*0.9); o.connect(g).connect(ctx.destination); o.start(t0); o.stop(t0+d); }
+function tone(type,f,t0,d){ const ctx=getCCtx(); if(!ctx.createOscillator) return; const o=ctx.createOscillator(); const g=ctx.createGain(); o.type=type; o.frequency.setValueAtTime(f,t0); g.gain.setValueAtTime(0.0001,t0); g.gain.exponentialRampToValueAtTime(0.35,t0+0.02); g.gain.exponentialRampToValueAtTime(0.001,t0+d*0.9); o.connect(g).connect(ctx.destination); o.start(t0); o.stop(t0+d); }
 function playUISound(){ const t=getCtx().currentTime||0; tone('triangle',880,t,0.06); tone('sine',660,t+0.03,0.05); }
 function playFart(){ const t=getCtx().currentTime||0; tone('sawtooth',120,t,0.38); }
 
@@ -395,7 +399,6 @@ function syncAudioToLanguage(){
   const prevTime = isNaN(player.currentTime) ? 0 : player.currentTime;
   const newUrl = resolveSampleUrl(LANG,currentCollection,currentChapterIndex);
   if(!newUrl) return;
-text.
   player.src = newUrl;
   player.load();
   player.onloadedmetadata = ()=>{
