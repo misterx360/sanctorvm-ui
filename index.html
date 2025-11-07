@@ -1,508 +1,1003 @@
 <!DOCTYPE html>
+
 <html lang="es">
+
 <head>
+
 <meta charset="utf-8" />
+
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+
 <title>ARCHIVOS SONOROS ▷ SANCTORVM</title>
+
 <meta name="description" content="Standalone demo: password-gated chapters with Catbox audio and sci‑fi UI." />
+
 <style>
+
 :root{--bg:#070a0f;--panel:#0c1119;--panel2:#0e1420;--muted:#8c98b1;--text:#e6ebf5;--accent:#37e1ff;--danger:#ff5e6b;--ok:#32f0a1;--warn:#ffc95a;--glow:rgba(55,225,255,.35)}
+
 *{box-sizing:border-box}html,body{min-height:100%; height:auto}body{margin:0;font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--text);background:radial-gradient(1200px 800px at 15% -10%,#0e1320 0%,#070a0f 60%,#070a0f 100%);display:grid;place-items:center;overflow:hidden}
+
 .app{position:relative;width:min(1100px,95vw);padding:22px
-  }
+
+  }
+
 header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+
 h1{margin:0;font-size:clamp(16px,3.3vw,22px);letter-spacing:.6px;text-shadow:0 0 8px var(--glow)}
+
 .spacer{flex:1}.langbtn{cursor:pointer;background:linear-gradient(180deg,var(--panel) 0%,var(--panel2) 100%);border:1px solid #1a2233;color:var(--text);padding:8px 10px;border-radius:10px;font-weight:800}.langbtn.active{border-color:#2b9ab0;box-shadow:0 0 18px 0 var(--glow)}
+
 .card{background:linear-gradient(180deg,var(--panel) 0%,var(--panel2) 100%);border:1px solid #192233;border-radius:16px;padding:18px 16px;box-shadow:0 10px 40px #0006,inset 0 0 0 1px #0b1320}
+
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+
 @media(max-width:880px){.grid3{grid-template-columns:1fr}.grid5{grid-template-columns:repeat(2,1fr)}}
+
 button{cursor:pointer;background:radial-gradient(120% 140% at 50% -40%,#152034 0%,#0c131f 60%);border:1px solid #1a2438;color:var(--text);padding:14px 12px;border-radius:12px;font-weight:800;letter-spacing:.4px;transition:.15s ease}
+
 button:hover{border-color:#2a3d60;transform:translateY(-1px)}button:active{transform:translateY(0)}.accent{border-color:#2b9ab0}
+
 .row{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-top:12px}
+
 .muted{color:var(--muted);font-size:13px}.title{font-weight:900;font-size:18px;margin:0 0 10px}
+
 .hidden{display:none}.back{margin-bottom:12px}.status{margin-top:10px;font-size:14px;color:var(--muted)}.ok{color:var(--ok)}.err{color:var(--danger)}
+
 audio#player{width:100%;margin-top:8px;display:none}
+
 .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,8,16,.55);backdrop-filter:blur(3px);z-index:200}
+
 .modal.show{display:flex}.modal .box{width:min(520px,92vw);background:linear-gradient(180deg,#0b121e,#0f1828);border:1px solid #1b2a44;border-radius:14px;padding:16px;box-shadow:0 20px 60px #0008}
+
 .modal h2{margin:0 0 8px;font-size:18px}.modal .field{display:flex;gap:8px;margin-top:10px}.modal input{flex:1;background:#0b1220;border:1px solid #1f2a44;border-radius:10px;padding:12px 10px;color:var(--text)}
+
 .modal .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+
 .welcome{display:flex;gap:10px;align-items:center;padding:10px 12px;border:1px solid #1b2a44;border-radius:12px;background:linear-gradient(180deg,#0b121e,#0f1828);margin-bottom:10px}
+
 .welcome b{color:#9be8ff}
+
 /* New: chapter note italics + color */
+
 .italic-note{font-style:italic;color:var(--warn);margin-top:8px}
+
 /* New: custom player UI pinned to bottom and full width */
+
 #playerContainer{margin-top:12px}
+
 .playerUI{border:1px solid #1b2a44;border-radius:12px;padding:10px 12px;background:linear-gradient(180deg,#0b121e,#0f1828)}
+
 .playerUI .label{font-size:13px;color:var(--muted);margin-bottom:8px}
+
 .playerUI .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
 .playerUI .controls button{padding:8px 10px;border-radius:10px;font-weight:900}
+
 .playerUI .controls .square{font-size:14px} /* stop icon (square) */
+
 .playerUI .progress{flex:1;min-width:180px}
+
 .playerUI input[type="range"]{width:100%}
 
 
 
 
 
+
+
+
+
+
+
 .app{position:relative;z-index:1
-  }
+
+  }
+
 .chapter-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+
 .chapter-header .title{flex:1;margin:0}
+
 .iconbtn{cursor:pointer;background:transparent;border:1px solid #1a2233;color:var(--text);padding:6px 10px;border-radius:999px;font-size:18px;line-height:1}
+
 .iconbtn:hover{border-color:#2b9ab0;box-shadow:0 0 10px var(--glow)}
+
 .iconbtn:active{transform:scale(0.98)}
 
+
+
 /* Top banner: always full width */
+
 #topBanner{
-  display:block;
-  margin:0 auto 14px auto;
-  width:100%;
-  height:auto;
-  max-width:1100px; /* match card's max width */
-  user-select:none;
-  -webkit-user-drag:none;
+
+  display:block;
+
+  margin:0 auto 14px auto;
+
+  width:100%;
+
+  height:auto;
+
+  max-width:1100px; /* match card's max width */
+
+  user-select:none;
+
+  -webkit-user-drag:none;
+
 }
+
+
+
+
 
 
 
 body {
-    background-image: url("https://files.catbox.moe/opgeq4.jpg");
-    background-repeat: no-repeat;
-    background-position: top right;
-    background-size: cover;
-    background-color: var(--bg);
+
+    background-image: url("https://files.catbox.moe/opgeq4.jpg");
+
+    background-repeat: no-repeat;
+
+    background-position: top right;
+
+    background-size: cover;
+
+    background-color: var(--bg);
+
 }
+
+
+
 
 
 /* ===== Autoplay prompt (solo si falla el autoplay) ===== */
+
 #autoplayPrompt{
-  position: fixed;
-  right: 14px;
-  bottom: 14px;
-  background: linear-gradient(180deg,#0b121e,#0f1828);
-  border:1px solid #1b2a44;
-  border-radius: 999px;
-  padding: 8px 12px;
-  display: none;
-  gap: 8px;
-  z-index: 300;
-  align-items: center;
-  box-shadow: 0 6px 24px rgba(0,0,0,.4);
-  font-size: 13px;
-  color: var(--text);
+
+  position: fixed;
+
+  right: 14px;
+
+  bottom: 14px;
+
+  background: linear-gradient(180deg,#0b121e,#0f1828);
+
+  border:1px solid #1b2a44;
+
+  border-radius: 999px;
+
+  padding: 8px 12px;
+
+  display: none;
+
+  gap: 8px;
+
+  z-index: 300;
+
+  align-items: center;
+
+  box-shadow: 0 6px 24px rgba(0,0,0,.4);
+
+  font-size: 13px;
+
+  color: var(--text);
+
 }
+
 #autoplayPrompt button{
-  cursor: pointer;
-  background: radial-gradient(120% 140% at 50% -40%,#152034 0%,#0c131f 60%);
-  border:1px solid #1a2438;
-  color: var(--text);
-  padding: 8px 10px;
-  border-radius: 999px;
-  font-weight: 800;
+
+  cursor: pointer;
+
+  background: radial-gradient(120% 140% at 50% -40%,#152034 0%,#0c131f 60%);
+
+  border:1px solid #1a2438;
+
+  color: var(--text);
+
+  padding: 8px 10px;
+
+  border-radius: 999px;
+
+  font-weight: 800;
+
 }
+
+
+
 
 
 @media (orientation: landscape) and (max-height: 600px){
-  body{ place-items: start center; }
-  .app{ margin-top: 12px; margin-bottom: 24px; }
+
+  body{ place-items: start center; }
+
+  .app{ margin-top: 12px; margin-bottom: 24px; }
+
 }
+
 /* Soporte iOS Safari para alturas dinámicas */
+
 @supports (-webkit-touch-callout: none){
-  body{ min-height: -webkit-fill-available; }
+
+  body{ min-height: -webkit-fill-available; }
+
 }
+
+
+
 
 
 /* Alturas dinámicas modernas + scroll vertical garantizado */
+
 body{
-  min-height: 100dvh;
-  min-height: 100svh;
-  min-height: 100vh;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-bottom: env(safe-area-inset-bottom, 16px); /* que no tape la barra/borde */
+
+  min-height: 100dvh;
+
+  min-height: 100svh;
+
+  min-height: 100vh;
+
+  overflow-y: auto;
+
+  overflow-x: hidden;
+
+  padding-bottom: env(safe-area-inset-bottom, 16px); /* que no tape la barra/borde */
+
 }
+
+
+
 
 
 @media (orientation: landscape){
-  body{ 
-    display: block;         /* evita el centrado por grid que limita el scroll */
-    place-items: initial;   /* por si queda aplicado */
-  }
-  .app{ 
-    margin: 12px auto 24px auto; 
-    width: min(1100px, 95vw);
-  }
+
+  body{ 
+
+    display: block;         /* evita el centrado por grid que limita el scroll */
+
+    place-items: initial;   /* por si queda aplicado */
+
+  }
+
+  .app{ 
+
+    margin: 12px auto 24px auto; 
+
+    width: min(1100px, 95vw);
+
+  }
+
 }
+
+
+
 
 
 /* Subir todo el contenido visual sin mover el fondo */
+
 .app {
-    position: relative;
-    top: -20px; /* Ajusta este valor para más o menos desplazamiento */
+
+    position: relative;
+
+    top: -20px; /* Ajusta este valor para más o menos desplazamiento */
+
 }
 
+
+
 </style>
+
 </head>
+
 <body>
+
 <div id="bg" aria-hidden="true"></div>
+
 <div class="app">
+
 <img id="topBanner" src="https://files.catbox.moe/hhohzu.png" alt="SANCTORVM banner" />
-  <header>
-    <h1 data-i18n="app_title">ARCHIVOS SONOROS</h1>
-    <div class="spacer"></div>
-    <button id="btn-es" class="langbtn active" title="Español">ES</button>
-    <button id="btn-en" class="langbtn" title="English">EN</button>
-  </header>
 
-  <section id="screen-main" class="card">
-    <div class="welcome"><span>🧪</span><div id="welcome-text">Bienvenido/a a los archivos sonoros de SANCTORVM. Selecciona una aventura para ver sus capítulos.</div></div>
-    <p class="title" data-i18n="main_menu">AVENTURAS</p>
-    <div class="grid3" id="collections"></div>
-      </section>
+  <header>
 
-  <section id="screen-chapters" class="card hidden">
-    <div class="chapter-header">
-      <p class="title"><span id="chapters-title"></span></p>
-      <button id="btn-back" class="iconbtn" title="Volver">⟵</button>
-    </div>
-    <div class="grid5" id="chapters"></div>
-    <p id="chapter-note" class="italic-note">(Selecciona un capítulo)</p>
-    <div id="status" class="status"></div>
-        <div id="playerContainer"></div>
-  </section>
+    <h1 data-i18n="app_title">ARCHIVOS SONOROS</h1>
+
+    <div class="spacer"></div>
+
+    <button id="btn-es" class="langbtn active" title="Español">ES</button>
+
+    <button id="btn-en" class="langbtn" title="English">EN</button>
+
+  </header>
+
+
+
+  <section id="screen-main" class="card">
+
+    <div class="welcome"><span>🧪</span><div id="welcome-text">Bienvenido/a a los archivos sonoros de SANCTORVM. Selecciona una aventura para ver sus capítulos.</div></div>
+
+    <p class="title" data-i18n="main_menu">AVENTURAS</p>
+
+    <div class="grid3" id="collections"></div>
+
+    <!-- Subtitle removed as requested -->
+
+  </section>
+
+
+
+  <section id="screen-chapters" class="card hidden">
+
+    <div class="chapter-header">
+
+      <p class="title"><span id="chapters-title"></span></p>
+
+      <button id="btn-back" class="iconbtn" title="Volver">⟵</button>
+
+    </div>
+
+    <div class="grid5" id="chapters"></div>
+
+    <p id="chapter-note" class="italic-note">(Selecciona un capítulo)</p>
+
+    <div id="status" class="status"></div>
+
+    <!-- Player pinned at the very bottom -->
+
+    <div id="playerContainer"></div>
+
+  </section>
+
 </div>
+
+
 
 <div id="modal" class="modal" role="dialog" aria-modal="true">
-  <div class="box">
-    <h2 id="modal-title">Introduce la contraseña</h2>
-    <p class="muted" id="modal-sub">&nbsp;</p>
-    <div class="field"><input id="modal-input" type="password" placeholder="Contraseña exacta" /></div>
-    <div class="actions"><button id="modal-cancel" class="accent">Cancelar</button><button id="modal-ok" class="accent">Confirmar</button></div>
-    <div id="modal-msg" class="status"></div>
-  </div>
+
+  <div class="box">
+
+    <h2 id="modal-title">Introduce la contraseña</h2>
+
+    <p class="muted" id="modal-sub">&nbsp;</p>
+
+    <div class="field"><input id="modal-input" type="password" placeholder="Contraseña exacta" /></div>
+
+    <div class="actions"><button id="modal-cancel" class="accent">Cancelar</button><button id="modal-ok" class="accent">Confirmar</button></div>
+
+    <div id="modal-msg" class="status"></div>
+
+  </div>
+
 </div>
 
+
+
+<!-- native audio (hidden) -->
+
+<!-- Ambient loop audio (hidden) -->
+
 <audio id="ambient" autoplay playsinline preload="auto" loop style="display:none"></audio>
+
 <div id="autoplayPrompt">🔊 El sonido está pausado por tu navegador <button id="autoplayEnable">Activar sonido</button></div>
+
+
 
 <audio id="player" preload="metadata"></audio>
 
+
+
 <script>
+
 // ===== I18N =====
+
 const I18N={
-  es:{
-    app_title:'ARCHIVOS SONOROS',
-    main_menu:'AVENTURAS',
-    back:'Volver al menú',
-    prompt_title:'Introduce la contraseña',
-    prompt_hint:'La contraseña NO distingue mayúsculas/minúsculas.',
-    prompt_placeholder:'Contraseña exacta',
-    prompt_cancel:'Cancelar',
-    prompt_ok:'Confirmar',
-    status_ok:'¡Correcto! Reproduciendo audio…',
-    status_bad:'Contraseña incorrecta 💀',
-    chapter:n=>`Capítulo ${n}`,
-    select_chapter:'Selecciona capítulo',
-    welcome:'Bienvenido/a a los archivos sonoros de SANCTORVM. Selecciona una aventura para ver sus capítulos.',
-    select_note:'(Selecciona un capítulo)'
-  },
-  en:{
-    app_title:'SOUND FILES',
-    main_menu:'ADVENTURES',
-    back:'Back to menu',
-    prompt_title:'Enter password',
-    prompt_hint:'Password is NOT case sensitive.',
-    prompt_placeholder:'Exact password',
-    prompt_cancel:'Cancel',
-    prompt_ok:'Confirm',
-    status_ok:'Correct! Playing audio…',
-    status_bad:'Wrong password 💀',
-    chapter:n=>`Chapter ${n}`,
-    select_chapter:'Select chapter',
-    welcome:'Welcome to SANCTORVM sound files. Pick an adventure to view its chapters.',
-    select_note:'(Select a chapter)'
-  }
+
+  es:{
+
+    app_title:'ARCHIVOS SONOROS',
+
+    main_menu:'AVENTURAS',
+
+    back:'Volver al menú',
+
+    prompt_title:'Introduce la contraseña',
+
+    prompt_hint:'La contraseña NO distingue mayúsculas/minúsculas.',
+
+    prompt_placeholder:'Contraseña exacta',
+
+    prompt_cancel:'Cancelar',
+
+    prompt_ok:'Confirmar',
+
+    status_ok:'¡Correcto! Reproduciendo audio…',
+
+    status_bad:'Contraseña incorrecta 💀',
+
+    chapter:n=>`Capítulo ${n}`,
+
+    select_chapter:'Selecciona capítulo',
+
+    welcome:'Bienvenido/a a los archivos sonoros de SANCTORVM. Selecciona una aventura para ver sus capítulos.',
+
+    select_note:'(Selecciona un capítulo)'
+
+  },
+
+  en:{
+
+    app_title:'SOUND FILES',
+
+    main_menu:'ADVENTURES',
+
+    back:'Back to menu',
+
+    prompt_title:'Enter password',
+
+    prompt_hint:'Password is NOT case sensitive.',
+
+    prompt_placeholder:'Exact password',
+
+    prompt_cancel:'Cancel',
+
+    prompt_ok:'Confirm',
+
+    status_ok:'Correct! Playing audio…',
+
+    status_bad:'Wrong password 💀',
+
+    chapter:n=>`Chapter ${n}`,
+
+    select_chapter:'Select chapter',
+
+    welcome:'Welcome to SANCTORVM sound files. Pick an adventure to view its chapters.',
+
+    select_note:'(Select a chapter)'
+
+  }
+
 };
-// ==========================================================
-// MODIFICACIÓN 1: Añadidos 'Steel Steps' y 'Whisper Walls'
-// ==========================================================
-const COLLECTION_KEYS=['Loud Laugh','Mard March','Red Radiance','Steel Steps','Whisper Walls'];
+
+const COLLECTION_KEYS=['Loud Laugh','Mard March','Red Radiance'];
+
 let LANG=localStorage.getItem('lang')||'es';
 
+
+
 // ===== DOM =====
+
 const screenMain=document.getElementById('screen-main');
+
 const screenCh=document.getElementById('screen-chapters');
+
 const chaptersTitle=document.getElementById('chapters-title');
+
 const statusBox=document.getElementById('status');
+
 const backBtn=document.getElementById('btn-back');
+
 const modal=document.getElementById('modal');
+
 const modalInput=document.getElementById('modal-input');
+
 const modalOk=document.getElementById('modal-ok');
+
 const modalCancel=document.getElementById('modal-cancel');
+
 const player=document.getElementById('player');
+
 const chapterNote=document.getElementById('chapter-note');
+
 const playerContainer=document.getElementById('playerContainer');
 
+
+
 function applyI18N(){
-  const t=I18N[LANG]; document.documentElement.lang=LANG;
-  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n'); if(t[k]) el.textContent=t[k];});
-  document.getElementById('welcome-text').innerHTML=t.welcome;
-  const wrap=document.getElementById('collections'); wrap.innerHTML='';
-  COLLECTION_KEYS.forEach(k=>{ const b=document.createElement('button'); b.className='accent'; b.textContent=k; b.dataset.collection=k; wrap.appendChild(b); });
-  buildChapters();
-  document.getElementById('modal-title').textContent=t.prompt_title;
-  document.getElementById('modal-sub').textContent=t.prompt_hint;
-  modalInput.placeholder=t.prompt_placeholder; modalCancel.textContent=t.prompt_cancel; modalOk.textContent=t.prompt_ok;
-  document.getElementById('btn-es').classList.toggle('active',LANG==='es');
-  document.getElementById('btn-en').classList.toggle('active',LANG==='en');
-  document.getElementById('btn-back').setAttribute('title', I18N[LANG].back);
-  // update chapter note text
-  chapterNote.textContent=t.select_note;
+
+  const t=I18N[LANG]; document.documentElement.lang=LANG;
+
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n'); if(t[k]) el.textContent=t[k];});
+
+  document.getElementById('welcome-text').innerHTML=t.welcome;
+
+  const wrap=document.getElementById('collections'); wrap.innerHTML='';
+
+  COLLECTION_KEYS.forEach(k=>{ const b=document.createElement('button'); b.className='accent'; b.textContent=k; b.dataset.collection=k; wrap.appendChild(b); });
+
+  buildChapters();
+
+  document.getElementById('modal-title').textContent=t.prompt_title;
+
+  document.getElementById('modal-sub').textContent=t.prompt_hint;
+
+  modalInput.placeholder=t.prompt_placeholder; modalCancel.textContent=t.prompt_cancel; modalOk.textContent=t.prompt_ok;
+
+  document.getElementById('btn-es').classList.toggle('active',LANG==='es');
+
+  document.getElementById('btn-en').classList.toggle('active',LANG==='en');
+
+  document.getElementById('btn-back').setAttribute('title', I18N[LANG].back);
+
+  // update chapter note text
+
+  chapterNote.textContent=t.select_note;
+
 }
+
 function buildChapters(){ const t=I18N[LANG]; const wrap=document.getElementById('chapters'); wrap.innerHTML=''; for(let i=1;i<=5;i++){ const b=document.createElement('button'); b.className='chapter'; b.dataset.ch=String(i); b.textContent=t.chapter(i); wrap.appendChild(b);} }
 
+
+
 // ===== Passwords & Audio =====
-// ==========================================================
-// MODIFICACIÓN 2: Añadidas las contraseñas
-// ==========================================================
+
 const PASSWORDS={
-  'Loud Laugh':['ANDRHOMO16','ETER678901','FAMILIAX','JAZZT333','HUNOKIN'],
-  'Mard March':['GARDEN','AGACMR123','TRIUMVIRATE','LADYBOY','CLDBLD642531'],
-  'Red Radiance':['ZMORPHS','CARNOFEST1','STORK','HORCUS2','FRESHIFRESH'],
-  'Steel Steps':['pass1','pass2','pass3','pass4','pass5'],
-  'Whisper Walls':['pass1','pass2','pass3','pass4','pass5']
+
+  'Loud Laugh':['ANDRHOMO16','ETER678901','FAMILIAX','JAZZT333','HUNOKIN'],
+
+  'Mard March':['GARDEN','AGACMR123','TRIUMVIRATE','LADYBOY','CLDBLD642531'],
+
+  'Red Radiance':['ZMORPHS','CARNOFEST1','STORK','HORCUS2','FRESHIFRESH']
+
 };
-// ==========================================================
-// MODIFICACIÓN 3: Añadidos los audios
-// ==========================================================
+
 const AUDIO_SAMPLES={
-  es:{'Loud Laugh':['https://files.catbox.moe/djiq7n.mp3',null,null,null,null],'Mard March':[null,null,null,null,null],'Red Radiance':[null,null,null,null,null], 'Steel Steps':[null,null,null,null,null], 'Whisper Walls':[null,null,null,null,null]},
-  en:{'Loud Laugh':['https://files.catbox.moe/35bawo.mp3','https://files.catbox.moe/8x066c.mp3','https://files.catbox.moe/cs3kzn.mp3','https://files.catbox.moe/ecvxk2.mp3','https://files.catbox.moe/n68exb.mp3'],'Mard March':['https://files.catbox.moe/heylp8.mp3','https://files.catbox.moe/mcf414.mp3','https://files.catbox.moe/lsszii.mp3','https://files.catbox.moe/lirtau.mp3','https://files.catbox.moe/br6t1s.mp3'],'Red Radiance':['https://files.catbox.moe/uo6436.mp3','https://files.catbox.moe/z7plkk.mp3','https://files.catbox.moe/ttsq7v.mp3','https://files.catbox.moe/e5fz8n.mp3','https://files.catbox.moe/clfgdv.mp3'], 'Steel Steps':[null,null,null,null,null], 'Whisper Walls':[null,null,null,null,null]}
+
+  es:{'Loud Laugh':['https://files.catbox.moe/djiq7n.mp3',null,null,null,null],'Mard March':[null,null,null,null,null],'Red Radiance':[null,null,null,null,null]},
+
+  en:{'Loud Laugh':['https://files.catbox.moe/35bawo.mp3','https://files.catbox.moe/8x066c.mp3','https://files.catbox.moe/cs3kzn.mp3','https://files.catbox.moe/ecvxk2.mp3','https://files.catbox.moe/n68exb.mp3'],'Mard March':['https://files.catbox.moe/heylp8.mp3','https://files.catbox.moe/mcf414.mp3','https://files.catbox.moe/lsszii.mp3','https://files.catbox.moe/lirtau.mp3','https://files.catbox.moe/br6t1s.mp3'],'Red Radiance':['https://files.catbox.moe/uo6436.mp3','https://files.catbox.moe/z7plkk.mp3','https://files.catbox.moe/ttsq7v.mp3','https://files.catbox.moe/e5fz8n.mp3','https://files.catbox.moe/clfgdv.mp3']}
+
 };
+
 const USE_CROSS_LANG_FALLBACK=true;
+
 function resolveSampleUrl(lang,key,idx){
-  if(AUDIO_SAMPLES[lang]?.[key]?.[idx]) return AUDIO_SAMPLES[lang][key][idx];
-  if(USE_CROSS_LANG_FALLBACK){ const other=lang==='es'?'en':'es'; if(AUDIO_SAMPLES[other]?.[key]?.[idx]) return AUDIO_SAMPLES[other][key][idx]; }
-s.
+
+  if(AUDIO_SAMPLES[lang]?.[key]?.[idx]) return AUDIO_SAMPLES[lang][key][idx];
+
+  if(USE_CROSS_LANG_FALLBACK){ const other=lang==='es'?'en':'es'; if(AUDIO_SAMPLES[other]?.[key]?.[idx]) return AUDIO_SAMPLES[other][key][idx]; }
+
+  return null;
+
 }
+
+
 
 // ===== Player (custom UI) =====
+
 let playerUI=null, playBtn=null, stopBtn=null, progress=null;
+
 function ensurePlayerUI(collectionKey,chapterIndex){
-  if(playerUI){ playerUI.remove(); playerUI=null; }
-  playerUI=document.createElement('div');
-  playerUI.className='playerUI';
-  const label=document.createElement('div');
-  label.className='label';
-  label.textContent=(LANG==='es'?'Reproductor: ':'Player: ')+`${collectionKey} · ${I18N[LANG].chapter(chapterIndex+1)}`;
-  const controls=document.createElement('div');
-  controls.className='controls';
-  playBtn=document.createElement('button');
-  playBtn.textContent='▶︎/⏸';
-  stopBtn=document.createElement('button');
-  stopBtn.innerHTML='<span class="square">■</span>';
-  progress=document.createElement('input');
-  progress.className='progress';
-  progress.type='range'; progress.min=0; progress.max=1000; progress.value=0; progress.step=1;
 
-  controls.appendChild(playBtn);
-  controls.appendChild(stopBtn);
-  controls.appendChild(progress);
+  if(playerUI){ playerUI.remove(); playerUI=null; }
 
-  playerUI.appendChild(label);
-  playerUI.appendChild(controls);
-  playerContainer.appendChild(playerUI);
+  playerUI=document.createElement('div');
 
-  // handlers
-  playBtn.onclick=()=>{
-    if(player.paused) player.play().catch(()=>{});
-    else player.pause();
-  };
-  stopBtn.onclick=()=>{
-    player.pause();
-    try{ player.currentTime=0; }catch(_){}
-  };
-  progress.oninput=(e)=>{
-    if(player.duration && !isNaN(player.duration)){
-s.
-    }
-  };
-  player.addEventListener('timeupdate',()=>{
-    if(player.duration && !isNaN(player.duration)){
-      const ratio=player.currentTime/player.duration;
-      progress.value=Math.round(ratio*1000);
-    }
-  });
+  playerUI.className='playerUI';
+
+  const label=document.createElement('div');
+
+  label.className='label';
+
+  label.textContent=(LANG==='es'?'Reproductor: ':'Player: ')+`${collectionKey} · ${I18N[LANG].chapter(chapterIndex+1)}`;
+
+  const controls=document.createElement('div');
+
+  controls.className='controls';
+
+  playBtn=document.createElement('button');
+
+  playBtn.textContent='▶︎/⏸';
+
+  stopBtn=document.createElement('button');
+
+  stopBtn.innerHTML='<span class="square">■</span>';
+
+  progress=document.createElement('input');
+
+  progress.className='progress';
+
+  progress.type='range'; progress.min=0; progress.max=1000; progress.value=0; progress.step=1;
+
+
+
+  controls.appendChild(playBtn);
+
+  controls.appendChild(stopBtn);
+
+  controls.appendChild(progress);
+
+
+
+  playerUI.appendChild(label);
+
+  playerUI.appendChild(controls);
+
+  playerContainer.appendChild(playerUI);
+
+
+
+  // handlers
+
+  playBtn.onclick=()=>{
+
+    if(player.paused) player.play().catch(()=>{});
+
+    else player.pause();
+
+  };
+
+  stopBtn.onclick=()=>{
+
+    player.pause();
+
+    try{ player.currentTime=0; }catch(_){}
+
+  };
+
+  progress.oninput=(e)=>{
+
+    if(player.duration && !isNaN(player.duration)){
+
+      const ratio=Number(progress.value)/1000;
+
+      player.currentTime=player.duration*ratio;
+
+    }
+
+  };
+
+  player.addEventListener('timeupdate',()=>{
+
+    if(player.duration && !isNaN(player.duration)){
+
+      const ratio=player.currentTime/player.duration;
+
+      progress.value=Math.round(ratio*1000);
+
+    }
+
+  });
+
 }
+
+
 
 function playSample(url){ try{player.pause();}catch(_){} player.src=url; player.load(); player.play().catch(()=>{}); }
+
 function showPlayer(collectionKey,chapterIndex,url){
-  currentChapterIndex = chapterIndex;
-  ensurePlayerUI(collectionKey,chapterIndex);
-  // we keep native controls hidden to avoid cramped layout on mobile
-  player.controls=false; player.style.display='none';
-  if(url){ playSample(url); }
+
+  currentChapterIndex = chapterIndex;
+
+  ensurePlayerUI(collectionKey,chapterIndex);
+
+  // we keep native controls hidden to avoid cramped layout on mobile
+
+  player.controls=false; player.style.display='none';
+
+  if(url){ playSample(url); }
+
 }
+
+
 
 // ===== State & UI =====
-let currentCollection=null,pendingChapterIndex=null,currentChapterIndex=null;
-function status(msg,ok=false){ statusBox.innerHTML=msg? (ok?`<span class="ok">${msg}</span>`:`<span class="err">${msg}</span>`):''; }
-function goToMain(){ screenCh.classList.add('hidden'); screenMain.classList.remove('hidden'); status(''); try{player.pause();}catch(_){} document.getElementById('playerContainer').innerHTML=''; document.getElementById('bg').style.backgroundImage='none'; }
-function goToChapters(collection) {
-s.
-  chaptersTitle.textContent = String(collection).toUpperCase();
-  screenMain.classList.add('hidden'); 
-  screenCh.classList.remove('hidden'); 
-  status('');
 
-  // Fondo según la aventura
-  const backgrounds = {
-      'Loud Laugh': 'https://files.catbox.moe/ppjfrm.jpg',
-      'Mard March': 'https://files.catbox.moe/iodwo5.jpg',
-      'Red Radiance': 'https://files.catbox.moe/htdl8o.jpg'
-  };
-  
+let currentCollection=null,pendingChapterIndex=null,currentChapterIndex=null;
+
+function status(msg,ok=false){ statusBox.innerHTML=msg? (ok?`<span class="ok">${msg}</span>`:`<span class="err">${msg}</span>`):''; }
+
+function goToMain(){ screenCh.classList.add('hidden'); screenMain.classList.remove('hidden'); status(''); try{player.pause();}catch(_){} document.getElementById('playerContainer').innerHTML=''; document.getElementById('bg').style.backgroundImage='none'; }
+
+function goToChapters(collection) {
+
+  currentCollection = collection;
+
+  chaptersTitle.textContent = String(collection).toUpperCase();
+
+  screenMain.classList.add('hidden'); 
+
+  screenCh.classList.remove('hidden'); 
+
+  status('');
+
+
+
+  // Fondo según la aventura
+
+  const backgrounds = {
+
+      'Loud Laugh': 'https://files.catbox.moe/ppjfrm.jpg',
+
+      'Mard March': 'https://files.catbox.moe/iodwo5.jpg',
+
+      'Red Radiance': 'https://files.catbox.moe/htdl8o.jpg'
+
+  };
+
+  
+
 }
+
+
 
 // ===== Simple UI sounds =====
+
 let audioCtx=null; function getCtx(){ if(!audioCtx){ const AC=window.AudioContext||window.webkitAudioContext; try{audioCtx=new AC();}catch(e){return {currentTime:0,createOscillator:null};} } if(audioCtx.state==='suspended') audioCtx.resume?.(); return audioCtx; }
+
 function tone(type,f,t0,d){ const ctx=getCtx(); if(!ctx.createOscillator) return; const o=ctx.createOscillator(); const g=ctx.createGain(); o.type=type; o.frequency.setValueAtTime(f,t0); g.gain.setValueAtTime(0.0001,t0); g.gain.exponentialRampToValueAtTime(0.35,t0+0.02); g.gain.exponentialRampToValueAtTime(0.001,t0+d*0.9); o.connect(g).connect(ctx.destination); o.start(t0); o.stop(t0+d); }
+
 function playUISound(){ const t=getCtx().currentTime||0; tone('triangle',880,t,0.06); tone('sine',660,t+0.03,0.05); }
+
 function playFart(){ const t=getCtx().currentTime||0; tone('sawtooth',120,t,0.38); }
 
+
+
 // ===== Password modal =====
+
 function openPasswordModal(collection,chapterIndex){
-  pendingChapterIndex=chapterIndex;
-  const t=I18N[LANG];
-  document.getElementById('modal-title').textContent=`${t.prompt_title} · ${collection} · ${t.chapter(chapterIndex+1)}`;
-  document.getElementById('modal-sub').textContent=t.prompt_hint;
-s.
-  modal.classList.add('show'); modalInput.focus();
+
+  pendingChapterIndex=chapterIndex;
+
+  const t=I18N[LANG];
+
+  document.getElementById('modal-title').textContent=`${t.prompt_title} · ${collection} · ${t.chapter(chapterIndex+1)}`;
+
+  document.getElementById('modal-sub').textContent=t.prompt_hint;
+
+  modalInput.value=''; document.getElementById('modal-msg').textContent='';
+
+  modal.classList.add('show'); modalInput.focus();
+
 }
+
 function closePasswordModal(){ modal.classList.remove('show'); pendingChapterIndex=null; }
+
 function verifyPassword(){
-  if(currentCollection==null || pendingChapterIndex==null) return;
-  const idx=pendingChapterIndex, expected=PASSWORDS[currentCollection][idx], given=modalInput.value;
-  if((given||'').toLowerCase()===(expected||'').toLowerCase()){
-    const url=resolveSampleUrl(LANG,currentCollection,idx);
-  s.
-    showPlayer(currentCollection,idx,url); // now always at the bottom with custom UI
-    closePasswordModal();
-  }else{
-    document.getElementById('modal-msg').innerHTML=`<span class="err">${I18N[LANG].status_bad}</span>`; playFart();
-  }
+
+  if(currentCollection==null || pendingChapterIndex==null) return;
+
+  const idx=pendingChapterIndex, expected=PASSWORDS[currentCollection][idx], given=modalInput.value;
+
+  if((given||'').toLowerCase()===(expected||'').toLowerCase()){
+
+    const url=resolveSampleUrl(LANG,currentCollection,idx);
+
+    status(I18N[LANG].status_ok,true);
+
+    showPlayer(currentCollection,idx,url); // now always at the bottom with custom UI
+
+    closePasswordModal();
+
+  }else{
+
+    document.getElementById('modal-msg').innerHTML=`<span class="err">${I18N[LANG].status_bad}</span>`; playFart();
+
+  }
+
 }
+
+
+
 
 
 function syncAudioToLanguage(){
-  if(currentCollection==null || currentChapterIndex==null) return;
-  const wasPaused = player.paused;
-  const prevTime = isNaN(player.currentTime) ? 0 : player.currentTime;
-  const newUrl = resolveSampleUrl(LANG,currentCollection,currentChapterIndex);
-s.
-  player.src = newUrl;
-  player.load();
-  player.onloadedmetadata = ()=>{
-    try{ player.currentTime = Math.min(prevTime, isNaN(player.duration)?0:player.duration-0.25); }catch(_){}
-    if(!wasPaused){ player.play().catch(()=>{}); }
-  };
-  // Update label of custom player
-  if(playerUI){
-    const label = playerUI.querySelector('.label');
-    if(label){ label.textContent = (LANG==='es'?'Reproductor: ':'Player: ') + `${currentCollection} · ${I18N[LANG].chapter(currentChapterIndex+1)}`; }
-  }
+
+  if(currentCollection==null || currentChapterIndex==null) return;
+
+  const wasPaused = player.paused;
+
+  const prevTime = isNaN(player.currentTime) ? 0 : player.currentTime;
+
+  const newUrl = resolveSampleUrl(LANG,currentCollection,currentChapterIndex);
+
+  if(!newUrl) return;
+
+  player.src = newUrl;
+
+  player.load();
+
+  player.onloadedmetadata = ()=>{
+
+    try{ player.currentTime = Math.min(prevTime, isNaN(player.duration)?0:player.duration-0.25); }catch(_){}
+
+    if(!wasPaused){ player.play().catch(()=>{}); }
+
+  };
+
+  // Update label of custom player
+
+  if(playerUI){
+
+    const label = playerUI.querySelector('.label');
+
+    if(label){ label.textContent = (LANG==='es'?'Reproductor: ':'Player: ') + `${currentCollection} · ${I18N[LANG].chapter(currentChapterIndex+1)}`; }
+
+  }
+
 }
+
+
 
 // ===== Events =====
+
 document.getElementById('btn-es').addEventListener('click',()=>{playUISound();LANG='es';localStorage.setItem('lang','es');applyI18N();syncAudioToLanguage();});
+
 document.getElementById('btn-en').addEventListener('click',()=>{playUISound();LANG='en';localStorage.setItem('lang','en');applyI18N();syncAudioToLanguage();});
+
 document.getElementById('collections').addEventListener('click',e=>{const b=e.target.closest('button[data-collection]'); if(!b) return; playUISound(); goToChapters(b.dataset.collection);});
+
 backBtn.addEventListener('click',()=>{playUISound(); goToMain();});
+
 document.getElementById('chapters').addEventListener('click',e=>{const b=e.target.closest('button.chapter'); if(!b||!currentCollection) return; playUISound(); const idx=parseInt(b.dataset.ch,10)-1; openPasswordModal(currentCollection,idx);});
+
 modalOk.addEventListener('click',verifyPassword); modalCancel.addEventListener('click',closePasswordModal);
+
 modalInput.addEventListener('keydown',e=>{ if(e.key==='Enter') verifyPassword(); if(e.key==='Escape') closePasswordModal(); });
 
+
+
 // Init
+
 applyI18N();
 
+
+
 // ===== Robust Autoplay Handling =====
+
 const autoplayPrompt = document.getElementById('autoplayPrompt');
+
 const autoplayEnableBtn = document.getElementById('autoplayEnable');
 
+
+
 async function tryPlayAmbientStrict(){
-  ambientEl.volume = AMBIENT_VOLUME;
-  try{
-    await ambientEl.play();
-    if (autoplayPrompt) autoplayPrompt.style.display = 'none';
-s.
-  }catch(e){
-    // Si el navegador bloquea el autoplay con sonido
-    if (autoplayPrompt) autoplayPrompt.style.display = 'flex';
-    return false;
-  }
+
+  ambientEl.volume = AMBIENT_VOLUME;
+
+  try{
+
+    await ambientEl.play();
+
+    if (autoplayPrompt) autoplayPrompt.style.display = 'none';
+
+    return true;
+
+  }catch(e){
+
+    // Si el navegador bloquea el autoplay con sonido
+
+    if (autoplayPrompt) autoplayPrompt.style.display = 'flex';
+
+    return false;
+
+  }
+
 }
+
+
 
 function attachAutoplayUnlockers(){
-  const unlock = async () => {
-    await tryPlayAmbientStrict();
-    // Si ya se está reproduciendo, removemos listeners de desbloqueo
-    if (!ambientEl.paused){
-      document.removeEventListener('pointerdown', unlock);
-      document.removeEventListener('keydown', unlock);
-      document.removeEventListener('touchstart', unlock);
-    }
-  };
-s.
-  document.addEventListener('keydown', unlock);
-  document.addEventListener('touchstart', unlock);
+
+  const unlock = async () => {
+
+    await tryPlayAmbientStrict();
+
+    // Si ya se está reproduciendo, removemos listeners de desbloqueo
+
+    if (!ambientEl.paused){
+
+      document.removeEventListener('pointerdown', unlock);
+
+      document.removeEventListener('keydown', unlock);
+
+      document.removeEventListener('touchstart', unlock);
+
+    }
+
+  };
+
+  document.addEventListener('pointerdown', unlock);
+
+  document.addEventListener('keydown', unlock);
+
+  document.addEventListener('touchstart', unlock);
+
 }
+
+
 
 window.addEventListener('load', async () => {
-s.
-  attachAutoplayUnlockers();
+
+  const ok = await tryPlayAmbientStrict();
+
+  attachAutoplayUnlockers();
+
 });
+
+
 
 if (autoplayEnableBtn){
-  autoplayEnableBtn.addEventListener('click', async ()=>{
-    await tryPlayAmbientStrict();
-  });
+
+  autoplayEnableBtn.addEventListener('click', async ()=>{
+
+    await tryPlayAmbientStrict();
+
+  });
+
 }
 
+
+
 // Reintento al volver a la pestaña
+
 document.addEventListener('visibilitychange', ()=>{
-  if (document.visibilityState === 'visible' && ambientEl.paused){
-    tryPlayAmbientStrict();
-  }
+
+  if (document.visibilityState === 'visible' && ambientEl.paused){
+
+    tryPlayAmbientStrict();
+
+  }
+
 });
+
+
+
 
 
 // ===== Ambient loop audio (global) =====
+
 const AMBIENT_SRC = "https://files.catbox.moe/wdz4jb.mp3";
+
 let AMBIENT_VOLUME = 0.25; // <-- Ajusta aquí el volumen por programación (0.0 - 1.0)
 
+
+
 const ambientEl = document.getElementById('ambient') || new Audio();
+
 if (!ambientEl.src) ambientEl.src = AMBIENT_SRC;
+
 ambientEl.loop = true;
+
 ambientEl.volume = AMBIENT_VOLUME;
+
 ambientEl.preload = 'auto';
 
+
+
 function tryPlayAmbient(){
-  ambientEl.volume = AMBIENT_VOLUME; // asegura el volumen actual programado
-s.
+
+  ambientEl.volume = AMBIENT_VOLUME; // asegura el volumen actual programado
+
+  ambientEl.play().catch(()=>{});
+
 }
 
+
+
 // Intenta iniciar al cargar y asegura inicio con la primera interacción del usuario (evita bloqueo de autoplay)
+
 window.addEventListener('load', tryPlayAmbient);
+
 document.addEventListener('click', tryPlayAmbient, { once:true });
+
 document.addEventListener('keydown', tryPlayAmbient, { once:true });
 
+
+
 // Si el navegador lo pausa (cambio de pestaña/ahorro energía), reintenta cuando vuelva a estar visible
+
 document.addEventListener('visibilitychange', ()=>{
-  if (document.visibilityState === 'visible' && ambientEl.paused){
-    tryPlayAmbient();
-  }
+
+  if (document.visibilityState === 'visible' && ambientEl.paused){
+
+    tryPlayAmbient();
+
+  }
+
 });
 
+
+
 </script>
+
 </body>
+
 </html>
