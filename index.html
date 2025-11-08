@@ -489,9 +489,8 @@ ambientEl.addEventListener('ended', () => {
   ambientEl.play().catch(()=>{}); // Inicia la reproducción
 });
 
-
 // ==========================================================
-// Audio Ducking (CON FADE)
+// Audio Ducking (CON FADE) - (Bloque completo y corregido)
 // ==========================================================
 const originalAmbientVolume = AMBIENT_VOLUME; // Guardamos el volumen original
 const duckedAmbientVolume = originalAmbientVolume * 0.35; // Reducido al 35%
@@ -499,13 +498,20 @@ const duckedAmbientVolume = originalAmbientVolume * 0.35; // Reducido al 35%
 // Listeners para BAJAR el volumen
 function fadeAmbientDown() {
   if (ambientEl) {
-    fadeVolume(ambientEl, duckedAmbientVolume, 1000); // Fade-out en 1 seg
+    // Lógica condicional para Steel Steps
+    if (currentCollection === 'Steel Steps' && currentChapterIndex === 0) {
+      // Si es esta canción, mutear ambiente por completo
+      fadeVolume(ambientEl, 0, 1000); 
+    } else {
+      // Para cualquier otro archivo, solo atenuar
+      fadeVolume(ambientEl, duckedAmbientVolume, 1000);
+    }
   }
 }
 player.addEventListener('play', fadeAmbientDown);
 player.addEventListener('playing', fadeAmbientDown);
 
-// Listeners para SUBIR el volumen
+// Listeners para SUBIR el volumen (Esta es la parte que faltaba)
 function fadeAmbientUp() {
   if (ambientEl) {
     fadeVolume(ambientEl, originalAmbientVolume, 1000); // Fade-in en 1 seg
@@ -517,7 +523,6 @@ player.addEventListener('emptied', fadeAmbientUp);
 // ==========================================================
 // FIN del bloque de Audio Ducking
 // ==========================================================
-
 
 /**
  * Elige una pista aleatoria de la AMBIENT_PLAYLIST y la reproduce.
