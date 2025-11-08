@@ -423,7 +423,43 @@ modalInput.addEventListener('keydown',e=>{ if(e.key==='Enter') verifyPassword();
 applyI18N();
 
 // ==========================================================
-// INICIO DEL SCRIPT DE MÚSICA AMBIENTAL (ORDEN CORREGIDO)
+// Fade de Volumen
+// ==========================================================
+/**
+ * Atenúa el volumen de un elemento de audio de forma gradual.
+ * @param {HTMLAudioElement} audioElement El elemento de audio (ej. ambientEl)
+ * @param {number} targetVolume El volumen al que queremos llegar (ej. 0.1 o 0.4)
+ * @param {number} duration La duración del fade en milisegundos (ej. 1000)
+ */
+function fadeVolume(audioElement, targetVolume, duration = 1000) {
+  // Limpiar cualquier fade anterior que estuviera en curso
+  if (audioElement._fadeInterval) {
+    clearInterval(audioElement._fadeInterval);
+  }
+
+  const startVolume = audioElement.volume;
+  const volumeChange = targetVolume - startVolume;
+  if (volumeChange === 0) return; // Ya está en ese volumen
+
+  const stepDuration = 25; // 25ms por paso (40 pasos por segundo)
+  const totalSteps = duration / stepDuration;
+  const volumeStep = volumeChange / totalSteps;
+
+  audioElement._fadeInterval = setInterval(() => {
+    const newVolume = audioElement.volume + volumeStep;
+    
+    // Comprobar si hemos llegado (o pasado) el objetivo
+    if ((volumeStep > 0 && newVolume >= targetVolume) || (volumeStep < 0 && newVolume <= targetVolume)) {
+      audioElement.volume = targetVolume; // Fijar el volumen final
+      clearInterval(audioElement._fadeInterval); // Detener el intervalo
+      audioElement._fadeInterval = null;
+    } else {
+      audioElement.volume = newVolume;
+    }
+  }, stepDuration);
+}
+// ==========================================================
+// FIN de la función Fade
 // ==========================================================
 
 // ===== LISTA DE REPRODUCCIÓN DE AMBIENTE =====
@@ -448,39 +484,29 @@ ambientEl.addEventListener('ended', () => {
 
 
 // ==========================================================
-// Audio Ducking (Bajar volumen de ambiente)
-// (Este bloque AHORA SÍ puede leer las variables de arriba)
+// Audio Ducking (CON FADE)
 // ==========================================================
 const originalAmbientVolume = AMBIENT_VOLUME; // Guardamos el volumen original
-const duckedAmbientVolume = originalAmbientVolume * 0.35; // Reducido al 35% (era 0.5)
+const duckedAmbientVolume = originalAmbientVolume * 0.35; // Reducido al 35%
 
-player.addEventListener('play', () => {
+// Listeners para BAJAR el volumen
+function fadeAmbientDown() {
   if (ambientEl) {
-    ambientEl.volume = duckedAmbientVolume;
+    fadeVolume(ambientEl, duckedAmbientVolume, 1000); // Fade-out en 1 seg
   }
-});
-player.addEventListener('playing', () => {
-  if (ambientEl) {
-    ambientEl.volume = duckedAmbientVolume;
-  }
-});
+}
+player.addEventListener('play', fadeAmbientDown);
+player.addEventListener('playing', fadeAmbientDown);
 
-// Restaurar el volumen cuando el archivo sonoro se pausa o termina
-player.addEventListener('pause', () => {
+// Listeners para SUBIR el volumen
+function fadeAmbientUp() {
   if (ambientEl) {
-    ambientEl.volume = originalAmbientVolume;
+    fadeVolume(ambientEl, originalAmbientVolume, 1000); // Fade-in en 1 seg
   }
-});
-player.addEventListener('ended', () => {
-  if (ambientEl) {
-    ambientEl.volume = originalAmbientVolume;
-  }
-});
-player.addEventListener('emptied', () => {
-  if (ambientEl) {
-    ambientEl.volume = originalAmbientVolume;
-  }
-});
+}
+player.addEventListener('pause', fadeAmbientUp);
+player.addEventListener('ended', fadeAmbientUp);
+player.addEventListener('emptied', fadeAmbientUp);
 // ==========================================================
 // FIN del bloque de Audio Ducking
 // ==========================================================
