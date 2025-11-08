@@ -243,6 +243,7 @@ const modalCancel=document.getElementById('modal-cancel');
 const player=document.getElementById('player');
 const chapterNote=document.getElementById('chapter-note');
 const playerContainer=document.getElementById('playerContainer');
+  
 
 function applyI18N(){
   const t=I18N[LANG]; document.documentElement.lang=LANG;
@@ -343,7 +344,19 @@ function showPlayer(collectionKey,chapterIndex,url){
 // ===== State & UI =====
 let currentCollection=null,pendingChapterIndex=null,currentChapterIndex=null;
 function status(msg,ok=false){ statusBox.innerHTML=msg? (ok?`<span class="ok">${msg}</span>`:`<span class="err">${msg}</span>`):''; }
-function goToMain(){ screenCh.classList.add('hidden'); screenMain.classList.remove('hidden'); status(''); try{player.pause();}catch(_){} document.getElementById('playerContainer').innerHTML=''; document.getElementById('bg').style.backgroundImage='none'; }
+function goToMain() {
+  screenCh.classList.add('hidden');
+  screenMain.classList.remove('hidden');
+  status('');
+  try { player.pause(); } catch (_) { }
+  document.getElementById('playerContainer').innerHTML = '';
+  
+  // --- ¡ESTA ES LA LÍNEA CORREGIDA! ---
+  // Limpia el fondo de la "tarjeta" de capítulos
+  if (screenCh) {
+    screenCh.style.backgroundImage = 'none';
+  }
+}
 function goToChapters(collection) {
   currentCollection = collection;
   chaptersTitle.textContent = String(collection).toUpperCase();
@@ -356,14 +369,21 @@ function goToChapters(collection) {
       'Loud Laugh': 'https://files.catbox.moe/ppjfrm.jpg',
       'Mad March': 'https://files.catbox.moe/iodwo5.jpg',
       'Red Radiance': 'https://files.catbox.moe/htdl8o.jpg',
-      'Steel Steps': null, // <-- AÑADE TUS NUEVAS URLS AQUÍ
-      'Whisper Walls': null  // <-- AÑADE TUS NUEVAS URLS AQUÍ
+      'Steel Steps': null, // <-- Pega aquí tu URL de fondo vertical
+      'Whisper Walls': null  // <-- Pega aquí tu URL de fondo vertical
   };
   
-  const bgDiv = document.getElementById('bg');
+  // --- ¡ESTA ES LA PARTE CORREGIDA! ---
   const newBg = backgrounds[collection];
-  if (bgDiv) {
-    bgDiv.style.backgroundImage = newBg ? `url(${newBg})` : 'none';
+  
+  // Aplica el fondo a la "tarjeta" de capítulos (screenCh)
+  if (screenCh) {
+    screenCh.style.backgroundImage = newBg ? `url(${newBg})` : 'none';
+    
+    // (Opcional) Añade esto para que la imagen vertical se vea bien
+    screenCh.style.backgroundSize = 'cover';
+    screenCh.style.backgroundPosition = 'center top'; // Centra la imagen y la alinea arriba
+    screenCh.style.backgroundRepeat = 'no-repeat';
   }
 }
 
