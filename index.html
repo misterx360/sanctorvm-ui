@@ -12,7 +12,7 @@
 header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 h1{margin:0;font-size:clamp(16px,3.3vw,22px);letter-spacing:.6px;text-shadow:0 0 8px var(--glow)}
 .spacer{flex:1}.langbtn{cursor:pointer;background:linear-gradient(180deg,var(--panel) 0%,var(--panel2) 100%);border:1px solid #1a2233;color:var(--text);padding:8px 10px;border-radius:10px;font-weight:800}.langbtn.active{border-color:#2b9ab0;box-shadow:0 0 18px 0 var(--glow)}
-.card{background:linear-gradient(180deg,var(--panel) 0%,var(--panel2) 100%);border:1px solid #192233;border-radius:16px;padding:18px 16px;box-shadow:0 10px 40px #0006,inset 0 0 0 1px #0b1320}
+.card{background:linear-gradient(180deg,var(--panel) 0%,var(--panel2) 100%);border:1px solid #192233;border-radius:16px;padding:18px 16px;box-shadow:0 10px 40px #0006,inset 0 0 0 1px #0b1320;margin: 0 auto;}
 .grid3{display:grid;grid-template-columns:1fr;gap:12px;max-width:550px;margin:0 auto;}.grid5{display:grid;grid-template-columns:1fr;gap:10px;max-width:550px;margin:0 auto;}
 button{cursor:pointer;background:radial-gradient(120% 140% at 50% -40%,#152034 0%,#0c131f 60%);border:1px solid #1a2438;color:var(--text);padding:14px 12px;border-radius:12px;font-weight:800;letter-spacing:.4px;transition:.15s ease}
 button:hover{border-color:#2a3d60;transform:translateY(-1px)}button:active{transform:translateY(0)}.accent{border-color:#2b9ab0}
@@ -144,7 +144,10 @@ body{
   padding-bottom: 10px;
   font-size: 15px;
 }
-
+/* NUEVO: Fija el ancho de la tarjeta del menú principal */
+#screen-main.card {
+  max-width: 796px;
+}
 /* Fija el ancho de la tarjeta de capítulos a la imagen */
 #screen-chapters.card {
   max-width: 796px;
