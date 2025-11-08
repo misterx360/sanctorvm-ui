@@ -366,8 +366,6 @@ function goToChapters(collection) {
     bgDiv.style.backgroundImage = newBg ? `url(${newBg})` : 'none';
   }
 }
-  
-}
 
 // ===== Simple UI sounds =====
 let audioCtx=null; function getCtx(){ if(!audioCtx){ const AC=window.AudioContext||window.webkitAudioContext; try{audioCtx=new AC();}catch(e){return {currentTime:0,createOscillator:null};} } if(audioCtx.state==='suspended') audioCtx.resume?.(); return audioCtx; }
