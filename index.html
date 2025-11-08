@@ -422,6 +422,43 @@ modalInput.addEventListener('keydown',e=>{ if(e.key==='Enter') verifyPassword();
 // Init
 applyI18N();
 
+// ==========================================================
+// Audio Ducking (Bajar volumen de ambiente)
+// ==========================================================
+const originalAmbientVolume = AMBIENT_VOLUME; // Guardamos el volumen original (0.25)
+const duckedAmbientVolume = originalAmbientVolume * 0.35; // Reducido al 35%
+
+player.addEventListener('play', () => {
+  if (ambientEl) {
+    ambientEl.volume = duckedAmbientVolume;
+  }
+});
+player.addEventListener('playing', () => {
+  if (ambientEl) {
+    ambientEl.volume = duckedAmbientVolume;
+  }
+});
+
+// Restaurar el volumen cuando el archivo sonoro se pausa o termina
+player.addEventListener('pause', () => {
+  if (ambientEl) {
+    ambientEl.volume = originalAmbientVolume;
+  }
+});
+player.addEventListener('ended', () => {
+  if (ambientEl) {
+    ambientEl.volume = originalAmbientVolume;
+  }
+});
+player.addEventListener('emptied', () => {
+  if (ambientEl) {
+    ambientEl.volume = originalAmbientVolume;
+  }
+});
+// ==========================================================
+// FIN del bloque de Audio Ducking
+// ==========================================================
+
 // ===== LISTA DE REPRODUCCIÓN DE AMBIENTE =====
 // ¡Añade aquí todas las URLs de tu música de ambiente!
 const AMBIENT_PLAYLIST = [
@@ -431,10 +468,15 @@ const AMBIENT_PLAYLIST = [
 ];
 let AMBIENT_VOLUME = 0.25; // Ajusta aquí el volumen
 const ambientEl = document.getElementById('ambient') || new Audio();
-ambientEl.loop = true; // Hacemos que la pista actual se repita
+ambientEl.loop = false; // Hacemos que la pista actual se repita
 ambientEl.volume = AMBIENT_VOLUME;
 ambientEl.preload = 'auto';
 let currentTrackIndex = -1; // Para evitar que se repita la misma pista al "saltar"
+// Reproducir la siguiente pista aleatoria al terminar
+ambientEl.addEventListener('ended', () => {
+playRandomAmbientTrack(true); // Carga la siguiente pista aleatoria
+ambientEl.play().catch(()=>{}); // Inicia la reproducción
+});
 
 /**
  * Elige una pista aleatoria de la AMBIENT_PLAYLIST y la reproduce.
