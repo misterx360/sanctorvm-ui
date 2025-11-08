@@ -355,8 +355,17 @@ function goToChapters(collection) {
   const backgrounds = {
       'Loud Laugh': 'https://files.catbox.moe/ppjfrm.jpg',
       'Mad March': 'https://files.catbox.moe/iodwo5.jpg',
-      'Red Radiance': 'https://files.catbox.moe/htdl8o.jpg'
+      'Red Radiance': 'https://files.catbox.moe/htdl8o.jpg',
+      'Steel Steps': null, // <-- AÑADE TUS NUEVAS URLS AQUÍ
+      'Whisper Walls': null  // <-- AÑADE TUS NUEVAS URLS AQUÍ
   };
+  
+  const bgDiv = document.getElementById('bg');
+  const newBg = backgrounds[collection];
+  if (bgDiv) {
+    bgDiv.style.backgroundImage = newBg ? `url(${newBg})` : 'none';
+  }
+}
   
 }
 
