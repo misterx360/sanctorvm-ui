@@ -490,16 +490,18 @@ ambientEl.addEventListener('ended', () => {
 });
 
 
-// ==========================================================
-// Audio Ducking (CON FADE)
-// ==========================================================
-const originalAmbientVolume = AMBIENT_VOLUME; // Guardamos el volumen original
-const duckedAmbientVolume = originalAmbientVolume * 0.35; // Reducido al 35%
-
 // Listeners para BAJAR el volumen
 function fadeAmbientDown() {
   if (ambientEl) {
-    fadeVolume(ambientEl, duckedAmbientVolume, 1000); // Fade-out en 1 seg
+    // --- NUEVA LÓGICA CONDICIONAL ---
+    // (El índice del Capítulo 1 es 0)
+    if (currentCollection === 'Steel Steps' && currentChapterIndex === 0) {
+      // Si es esta canción, mutear ambiente por completo
+      fadeVolume(ambientEl, 0, 1000); 
+    } else {
+      // Para cualquier otro archivo, solo atenuar
+      fadeVolume(ambientEl, duckedAmbientVolume, 1000);
+    }
   }
 }
 player.addEventListener('play', fadeAmbientDown);
