@@ -7,7 +7,7 @@
 <meta name="description" content="Standalone demo: password-gated chapters with Catbox audio and sci‑fi UI." />
 <style>
 :root{--bg:#070a0f;--panel:#0c1119;--panel2:#0e1420;--muted:#8c98b1;--text:#e6ebf5;--accent:#37e1ff;--danger:#ff5e6b;--ok:#32f0a1;--warn:#ffc95a;--glow:rgba(55,225,255,.35)}
-*{box-sizing:border-box}html,body{min-height:100%; height:auto}body{margin:0;font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--text);background:radial-gradient(1200px 800px at 15% -10%,#0e1320 0%,#070a0f 60%,#070a0f 100%);display:grid;place-items:center;overflow:hidden}
+*{box-sizing:border-box}html,body{min-height:100%; height:auto}body{margin:0;font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--text);background:radial-gradient(1200px 800px at 15% -10%,#0e1320 0%,#070a0f 60%,#070a0f 100%);display:grid;place-items:start center;overflow:hidden}
 .app{position:relative;width:min(1100px,95vw);padding:22px
   }
 header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
@@ -55,7 +55,7 @@ audio#player{width:100%;margin-top:8px;display:none}
 /* Top banner: always full width */
 #topBanner{
   display:block;
-  margin:0 auto 14px auto;
+  margin:0 auto 28px auto;
   width:100%;
   height:auto;
   max-width:1100px; /* match card's max width */
@@ -138,7 +138,7 @@ body{
 /* Subir todo el contenido visual sin mover el fondo */
 .app {
     position: relative;
-    top: -20px; /* Ajusta este valor para más o menos desplazamiento */
+    top: 0px; /* Ajusta este valor para más o menos desplazamiento */
 }
 
 </style>
