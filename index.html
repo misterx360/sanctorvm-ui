@@ -144,6 +144,10 @@ body{
   padding-bottom: 10px;
   font-size: 15px;
 }
+  /* NUEVO: Ajusta la tarjeta de capítulos al ancho de la imagen de fondo */
+#screen-chapters.card {
+  max-width: 796px;
+}
 </style>
 </head>
 <body>
@@ -370,11 +374,11 @@ function goToChapters(collection) {
 
   // Fondo según la aventura
   const backgrounds = {
-      'Loud Laugh': 'https://files.catbox.moe/ppjfrm.jpg',
-      'Mad March': 'https://files.catbox.moe/iodwo5.jpg',
-      'Red Radiance': 'https://files.catbox.moe/htdl8o.jpg',
-      'Steel Steps': null, // <-- Pega aquí tu URL de fondo vertical
-      'Whisper Walls': null  // <-- Pega aquí tu URL de fondo vertical
+      'Loud Laugh': 'https://files.catbox.moe/9dpsi4.png',
+      'Mad March': 'https://files.catbox.moe/1d4k6a.png',
+      'Red Radiance': 'https://files.catbox.moe/w4ixe8.png',
+      'Steel Steps': 'https://files.catbox.moe/z1as3t.png', 
+      'Whisper Walls': 'https://files.catbox.moe/u2zv2z.png'
   };
   
   // --- ¡ESTA ES LA PARTE CORREGIDA! ---
@@ -385,7 +389,7 @@ function goToChapters(collection) {
     screenCh.style.backgroundImage = newBg ? `url(${newBg})` : 'none';
     
 // (Opcional) Añade esto para que la imagen vertical se vea bien
-  screenCh.style.backgroundSize = 'contain'; /* <-- ESTE ES EL CAMBIO */
+  screenCh.style.backgroundSize = '100% auto'; /* <-- ESTE ES EL CAMBIO */
   screenCh.style.backgroundPosition = 'center top'; // Centra la imagen y la alinea arriba
   screenCh.style.backgroundRepeat = 'no-repeat';
   }
