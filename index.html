@@ -13,8 +13,7 @@ header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 h1{margin:0;font-size:clamp(16px,3.3vw,22px);letter-spacing:.6px;text-shadow:0 0 8px var(--glow)}
 .spacer{flex:1}.langbtn{cursor:pointer;background:linear-gradient(180deg,var(--panel) 0%,var(--panel2) 100%);border:1px solid #1a2233;color:var(--text);padding:8px 10px;border-radius:10px;font-weight:800}.langbtn.active{border-color:#2b9ab0;box-shadow:0 0 18px 0 var(--glow)}
 .card{background:linear-gradient(180deg,var(--panel) 0%,var(--panel2) 100%);border:1px solid #192233;border-radius:16px;padding:18px 16px;box-shadow:0 10px 40px #0006,inset 0 0 0 1px #0b1320}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
-@media(max-width:880px){.grid3{grid-template-columns:1fr}.grid5{grid-template-columns:repeat(2,1fr)}}
+.grid3{display:grid;grid-template-columns:1fr;gap:12px}.grid5{display:grid;grid-template-columns:1fr;gap:10px}
 button{cursor:pointer;background:radial-gradient(120% 140% at 50% -40%,#152034 0%,#0c131f 60%);border:1px solid #1a2438;color:var(--text);padding:14px 12px;border-radius:12px;font-weight:800;letter-spacing:.4px;transition:.15s ease}
 button:hover{border-color:#2a3d60;transform:translateY(-1px)}button:active{transform:translateY(0)}.accent{border-color:#2b9ab0}
 .row{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-top:12px}
