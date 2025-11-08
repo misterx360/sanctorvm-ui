@@ -147,12 +147,13 @@ body{
 <div id="bg" aria-hidden="true"></div>
 <div class="app">
 <img id="topBanner" src="https://files.catbox.moe/hhohzu.png" alt="SANCTORVM banner" />
-  <header>
-    <h1 data-i18n="app_title">ARCHIVOS SONOROS</h1>
-    <div class="spacer"></div>
-    <button id="btn-es" class="langbtn active" title="Español">ES</button>
-    <button id="btn-en" class="langbtn" title="English">EN</button>
-  </header>
+<header>
+    <h1 data-i18n="app_title">ARCHIVOS SONOROS</h1>
+    <div class="spacer"></div>
+        <button id="btn-music-skip" class="langbtn" title="Siguiente Pista">»</button>
+    <button id="btn-es" class="langbtn active" title="Español">ES</button>
+    <button id="btn-en" class="langbtn" title="English">EN</button>
+  </header>
 
   <section id="screen-main" class="card">
     <div class="welcome"><span>🧪</span><div id="welcome-text">Bienvenido/a a los archivos sonoros de SANCTORVM. Selecciona una aventura para ver sus capítulos.</div></div>
@@ -421,83 +422,127 @@ modalInput.addEventListener('keydown',e=>{ if(e.key==='Enter') verifyPassword();
 // Init
 applyI18N();
 
-// ===== Robust Autoplay Handling =====
+// ===== LISTA DE REPRODUCCIÓN DE AMBIENTE =====
+// ¡Añade aquí todas las URLs de tu música de ambiente!
+const AMBIENT_PLAYLIST = [
+  "https://files.catbox.moe/wdz4jb.mp3", // Ambient Track 01
+  "https://files.catbox.moe/9mrglo.mp3", // Ambient Track 02
+  "https://files.catbox.moe/422hz5.mp3"  // Ambient Track 03
+];
+let AMBIENT_VOLUME = 0.25; // Ajusta aquí el volumen
+const ambientEl = document.getElementById('ambient') || new Audio();
+ambientEl.loop = true; // Hacemos que la pista actual se repita
+ambientEl.volume = AMBIENT_VOLUME;
+ambientEl.preload = 'auto';
+let currentTrackIndex = -1; // Para evitar que se repita la misma pista al "saltar"
+
+/**
+ * Elige una pista aleatoria de la AMBIENT_PLAYLIST y la reproduce.
+ * Si forceNext = true, saltará a una pista diferente de la actual.
+ * Si forceNext = false, solo iniciará la música si estaba pausada.
+ */
+function playRandomAmbientTrack(forceNext = false) {
+  if (AMBIENT_PLAYLIST.length === 0) return; // No hacer nada si la lista está vacía
+
+  // Si no forzamos, y ya está sonando, no hacer nada (ej. al volver a la pestaña)
+  if (!forceNext && !ambientEl.paused && ambientEl.src) {
+    return; 
+  }
+
+  let newIndex = currentTrackIndex;
+  
+  // Elegir una nueva pista que NO sea la actual
+  if (AMBIENT_PLAYLIST.length > 1 && forceNext) {
+    while (newIndex === currentTrackIndex) {
+      newIndex = Math.floor(Math.random() * AMBIENT_PLAYLIST.length);
+    }
+  } else if (!ambientEl.src) {
+    // Si es la primera vez que carga, elegir una al azar
+    newIndex = Math.floor(Math.random() * AMBIENT_PLAYLIST.length);
+  } else {
+    // Si no forzamos y no está sonando, simplemente usamos el newIndex que ya teníamos
+    // (o el -1 si es la primera carga)
+    if (newIndex === -1) {
+       newIndex = Math.floor(Math.random() * AMBIENT_PLAYLIST.length);
+    }
+  }
+  
+  currentTrackIndex = newIndex;
+  const newSrc = AMBIENT_PLAYLIST[currentTrackIndex];
+  
+  // Cargar y reproducir solo si la fuente es realmente nueva o si estaba pausado
+  if (ambientEl.src !== newSrc || ambientEl.paused) {
+    ambientEl.src = newSrc;
+    ambientEl.volume = AMBIENT_VOLUME;
+  }
+  
+  // El .play() lo maneja la función que llama (tryPlayAmbientStrict)
+}
+
+// ===== Lógica de Autoplay (Modificada) =====
 const autoplayPrompt = document.getElementById('autoplayPrompt');
 const autoplayEnableBtn = document.getElementById('autoplayEnable');
 
 async function tryPlayAmbientStrict(){
-  ambientEl.volume = AMBIENT_VOLUME;
+  ambientEl.volume = AMBIENT_VOLUME;
+  // 1. Elegir la pista ANTES de intentar reproducir
+  playRandomAmbientTrack(false); 
+  
   try{
-    await ambientEl.play();
-    if (autoplayPrompt) autoplayPrompt.style.display = 'none';
-    return true;
-  }catch(e){
-    // Si el navegador bloquea el autoplay con sonido
-    if (autoplayPrompt) autoplayPrompt.style.display = 'flex';
-    return false;
-  }
+    // 2. Intentar reproducir la pista seleccionada
+    await ambientEl.play();
+    if (autoplayPrompt) autoplayPrompt.style.display = 'none';
+    return true;
+  }catch(e){
+    // Si el navegador bloquea el autoplay con sonido
+    if (autoplayPrompt) autoplayPrompt.style.display = 'flex';
+    return false;
+  }
 }
 
 function attachAutoplayUnlockers(){
-  const unlock = async () => {
-    await tryPlayAmbientStrict();
-    // Si ya se está reproduciendo, removemos listeners de desbloqueo
-    if (!ambientEl.paused){
-      document.removeEventListener('pointerdown', unlock);
-      document.removeEventListener('keydown', unlock);
-      document.removeEventListener('touchstart', unlock);
-    }
-  };
-  document.addEventListener('pointerdown', unlock);
-  document.addEventListener('keydown', unlock);
-  document.addEventListener('touchstart', unlock);
+  const unlock = async () => {
+    await tryPlayAmbientStrict();
+    // Si ya se está reproduciendo, removemos listeners de desbloqueo
+    if (!ambientEl.paused){
+      document.removeEventListener('pointerdown', unlock);
+      document.removeEventListener('keydown', unlock);
+      document.removeEventListener('touchstart', unlock);
+    }
+  };
+  document.addEventListener('pointerdown', unlock);
+  document.addEventListener('keydown', unlock);
+  document.addEventListener('touchstart', unlock);
 }
 
 window.addEventListener('load', async () => {
-  const ok = await tryPlayAmbientStrict();
-  attachAutoplayUnlockers();
+  const ok = await tryPlayAmbientStrict();
+  attachAutoplayUnlockers();
 });
 
 if (autoplayEnableBtn){
-  autoplayEnableBtn.addEventListener('click', async ()=>{
-    await tryPlayAmbientStrict();
-  });
+  autoplayEnableBtn.addEventListener('click', async ()=>{
+    await tryPlayAmbientStrict();
+  });
 }
 
 // Reintento al volver a la pestaña
 document.addEventListener('visibilitychange', ()=>{
-  if (document.visibilityState === 'visible' && ambientEl.paused){
-    tryPlayAmbientStrict();
-  }
+  if (document.visibilityState === 'visible' && ambientEl.paused){
+    tryPlayAmbientStrict();
+  }
 });
 
 
-// ===== Ambient loop audio (global) =====
-const AMBIENT_SRC = "https://files.catbox.moe/wdz4jb.mp3";
-let AMBIENT_VOLUME = 0.25; // <-- Ajusta aquí el volumen por programación (0.0 - 1.0)
-
-const ambientEl = document.getElementById('ambient') || new Audio();
-if (!ambientEl.src) ambientEl.src = AMBIENT_SRC;
-ambientEl.loop = true;
-ambientEl.volume = AMBIENT_VOLUME;
-ambientEl.preload = 'auto';
-
-function tryPlayAmbient(){
-  ambientEl.volume = AMBIENT_VOLUME; // asegura el volumen actual programado
-  ambientEl.play().catch(()=>{});
+// ===== Eventos del botón Skip (NUEVO) =====
+const skipButton = document.getElementById('btn-music-skip');
+if (skipButton) {
+  skipButton.addEventListener('click', () => {
+    playRandomAmbientTrack(true); // 'true' = forzar pista nueva
+    // Hacemos play() aquí para que el skip sea instantáneo
+    ambientEl.play().catch(()=>{}); 
+  });
 }
-
-// Intenta iniciar al cargar y asegura inicio con la primera interacción del usuario (evita bloqueo de autoplay)
-window.addEventListener('load', tryPlayAmbient);
-document.addEventListener('click', tryPlayAmbient, { once:true });
-document.addEventListener('keydown', tryPlayAmbient, { once:true });
-
-// Si el navegador lo pausa (cambio de pestaña/ahorro energía), reintenta cuando vuelva a estar visible
-document.addEventListener('visibilitychange', ()=>{
-  if (document.visibilityState === 'visible' && ambientEl.paused){
-    tryPlayAmbient();
-  }
-});
 
 </script>
 </body>
