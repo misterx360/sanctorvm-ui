@@ -138,13 +138,14 @@ body{
     position: relative;
     top: 0px; /* Ajusta este valor para más o menos desplazamiento */
 }
-/* Nueva regla para hacer los botones de aventuras y capítulos más pequeños */
+/* Ajusta el tamaño de los botones de rejilla */
 .grid3 button, .grid5 button {
   padding-top: 10px;
   padding-bottom: 10px;
   font-size: 15px;
 }
-  /* NUEVO: Ajusta la tarjeta de capítulos al ancho de la imagen de fondo */
+
+/* Fija el ancho de la tarjeta de capítulos a la imagen */
 #screen-chapters.card {
   max-width: 796px;
 }
@@ -381,17 +382,17 @@ function goToChapters(collection) {
       'Whisper Walls': 'https://files.catbox.moe/u2zv2z.png'
   };
   
-  // --- ¡ESTA ES LA PARTE CORREGIDA! ---
+// ... (dentro de la función goToChapters) ...
+  
   const newBg = backgrounds[collection];
   
-  // Aplica el fondo a la "tarjeta" de capítulos (screenCh)
   if (screenCh) {
     screenCh.style.backgroundImage = newBg ? `url(${newBg})` : 'none';
     
-// (Opcional) Añade esto para que la imagen vertical se vea bien
-  screenCh.style.backgroundSize = '100% auto'; /* <-- ESTE ES EL CAMBIO */
-  screenCh.style.backgroundPosition = 'center top'; // Centra la imagen y la alinea arriba
-  screenCh.style.backgroundRepeat = 'no-repeat';
+    // Asegúrate de que estas líneas están así:
+    screenCh.style.backgroundSize = '100% auto'; // 100% de ancho, altura automática
+    screenCh.style.backgroundPosition = 'center top'; 
+    screenCh.style.backgroundRepeat = 'no-repeat';
   }
 }
 
