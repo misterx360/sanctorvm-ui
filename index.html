@@ -12,8 +12,9 @@
 header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 h1{margin:0;font-size:clamp(16px,3.3vw,22px);letter-spacing:.6px;text-shadow:0 0 8px var(--glow)}
 .spacer{flex:1}.langbtn{cursor:pointer;background:linear-gradient(180deg,var(--panel) 0%,var(--panel2) 100%);border:1px solid #1a2233;color:var(--text);padding:8px 10px;border-radius:10px;font-weight:800}.langbtn.active{border-color:#2b9ab0;box-shadow:0 0 18px 0 var(--glow)}
-.card{background:linear-gradient(180deg,var(--panel) 0%,var(--panel2) 100%);border:1px solid #192233;border-radius:16px;padding:18px 16px;box-shadow:0 10px 40px #0006,inset 0 0 0 1px #0b1320;margin: 0 auto;}
-.grid3{display:grid;grid-template-columns:1fr;gap:12px;max-width:550px;margin:0 auto;}.grid5{display:grid;grid-template-columns:1fr;gap:10px;max-width:550px;margin:0 auto;}
+.card{background:linear-gradient(180deg,var(--panel) 0%,var(--panel2) 100%);border:1px solid #192233;border-radius:16px;padding:18px 16px;box-shadow:0 10px 40px #0006,inset 0 0 0 1px #0b1320}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+@media(max-width:880px){.grid3{grid-template-columns:1fr}.grid5{grid-template-columns:repeat(2,1fr)}}
 button{cursor:pointer;background:radial-gradient(120% 140% at 50% -40%,#152034 0%,#0c131f 60%);border:1px solid #1a2438;color:var(--text);padding:14px 12px;border-radius:12px;font-weight:800;letter-spacing:.4px;transition:.15s ease}
 button:hover{border-color:#2a3d60;transform:translateY(-1px)}button:active{transform:translateY(0)}.accent{border-color:#2b9ab0}
 .row{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-top:12px}
@@ -138,20 +139,7 @@ body{
     position: relative;
     top: 0px; /* Ajusta este valor para más o menos desplazamiento */
 }
-/* Ajusta el tamaño de los botones de rejilla */
-.grid3 button, .grid5 button {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  font-size: 15px;
-}
-/* NUEVO: Fija el ancho de la tarjeta del menú principal */
-#screen-main.card {
-  max-width: 796px;
-}
-/* Fija el ancho de la tarjeta de capítulos a la imagen */
-#screen-chapters.card {
-  max-width: 796px;
-}
+
 </style>
 </head>
 <body>
@@ -255,7 +243,6 @@ const modalCancel=document.getElementById('modal-cancel');
 const player=document.getElementById('player');
 const chapterNote=document.getElementById('chapter-note');
 const playerContainer=document.getElementById('playerContainer');
-  
 
 function applyI18N(){
   const t=I18N[LANG]; document.documentElement.lang=LANG;
@@ -356,19 +343,7 @@ function showPlayer(collectionKey,chapterIndex,url){
 // ===== State & UI =====
 let currentCollection=null,pendingChapterIndex=null,currentChapterIndex=null;
 function status(msg,ok=false){ statusBox.innerHTML=msg? (ok?`<span class="ok">${msg}</span>`:`<span class="err">${msg}</span>`):''; }
-function goToMain() {
-  screenCh.classList.add('hidden');
-  screenMain.classList.remove('hidden');
-  status('');
-  try { player.pause(); } catch (_) { }
-  document.getElementById('playerContainer').innerHTML = '';
-  
-  // --- ¡ESTA ES LA LÍNEA CORREGIDA! ---
-  // Limpia el fondo de la "tarjeta" de capítulos
-  if (screenCh) {
-    screenCh.style.backgroundImage = 'none';
-  }
-}
+function goToMain(){ screenCh.classList.add('hidden'); screenMain.classList.remove('hidden'); status(''); try{player.pause();}catch(_){} document.getElementById('playerContainer').innerHTML=''; document.getElementById('bg').style.backgroundImage='none'; }
 function goToChapters(collection) {
   currentCollection = collection;
   chaptersTitle.textContent = String(collection).toUpperCase();
@@ -378,25 +353,11 @@ function goToChapters(collection) {
 
   // Fondo según la aventura
   const backgrounds = {
-      'Loud Laugh': 'https://files.catbox.moe/9dpsi4.png',
-      'Mad March': 'https://files.catbox.moe/1d4k6a.png',
-      'Red Radiance': 'https://files.catbox.moe/w4ixe8.png',
-      'Steel Steps': 'https://files.catbox.moe/z1as3t.png', 
-      'Whisper Walls': 'https://files.catbox.moe/u2zv2z.png'
+      'Loud Laugh': 'https://files.catbox.moe/ppjfrm.jpg',
+      'Mad March': 'https://files.catbox.moe/iodwo5.jpg',
+      'Red Radiance': 'https://files.catbox.moe/htdl8o.jpg'
   };
   
-// ... (dentro de la función goToChapters) ...
-  
-  const newBg = backgrounds[collection];
-  
-  if (screenCh) {
-    screenCh.style.backgroundImage = newBg ? `url(${newBg})` : 'none';
-    
-    // Asegúrate de que estas líneas están así:
-    screenCh.style.backgroundSize = '100% auto'; // 100% de ancho, altura automática
-    screenCh.style.backgroundPosition = 'center top'; 
-    screenCh.style.backgroundRepeat = 'no-repeat';
-  }
 }
 
 // ===== Simple UI sounds =====
@@ -528,8 +489,9 @@ ambientEl.addEventListener('ended', () => {
   ambientEl.play().catch(()=>{}); // Inicia la reproducción
 });
 
+
 // ==========================================================
-// Audio Ducking (CON FADE) - (Bloque completo y corregido)
+// Audio Ducking (CON FADE)
 // ==========================================================
 const originalAmbientVolume = AMBIENT_VOLUME; // Guardamos el volumen original
 const duckedAmbientVolume = originalAmbientVolume * 0.35; // Reducido al 35%
@@ -537,20 +499,13 @@ const duckedAmbientVolume = originalAmbientVolume * 0.35; // Reducido al 35%
 // Listeners para BAJAR el volumen
 function fadeAmbientDown() {
   if (ambientEl) {
-    // Lógica condicional para Steel Steps
-    if (currentCollection === 'Steel Steps' && currentChapterIndex === 0) {
-      // Si es esta canción, mutear ambiente por completo
-      fadeVolume(ambientEl, 0, 1000); 
-    } else {
-      // Para cualquier otro archivo, solo atenuar
-      fadeVolume(ambientEl, duckedAmbientVolume, 1000);
-    }
+    fadeVolume(ambientEl, duckedAmbientVolume, 1000); // Fade-out en 1 seg
   }
 }
 player.addEventListener('play', fadeAmbientDown);
 player.addEventListener('playing', fadeAmbientDown);
 
-// Listeners para SUBIR el volumen (Esta es la parte que faltaba)
+// Listeners para SUBIR el volumen
 function fadeAmbientUp() {
   if (ambientEl) {
     fadeVolume(ambientEl, originalAmbientVolume, 1000); // Fade-in en 1 seg
@@ -562,6 +517,7 @@ player.addEventListener('emptied', fadeAmbientUp);
 // ==========================================================
 // FIN del bloque de Audio Ducking
 // ==========================================================
+
 
 /**
  * Elige una pista aleatoria de la AMBIENT_PLAYLIST y la reproduce.
