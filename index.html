@@ -144,44 +144,54 @@ body{
 }
 
 /* =========================================
-   AJUSTES PARA MÓVIL (4 BOTONES EN LÍNEA)
+   AJUSTES PARA MÓVIL (SOLUCIÓN GRID)
    ========================================= */
 @media (max-width: 640px) {
   header {
-    display: flex;
-    flex-wrap: wrap;        /* Permite crear dos filas (Botones arriba, Título abajo) */
-    gap: 6px;               /* Espacio pequeño entre botones */
-    justify-content: space-between; /* Asegura que lleguen a los bordes */
+    display: grid !important;
+    /* Definimos 4 columnas: 
+       - 3 partes para Ambiente
+       - 3 partes para Combate
+       - 1 parte para ES
+       - 1 parte para EN 
+    */
+    grid-template-columns: 3fr 3fr 1fr 1fr; 
+    gap: 5px; /* Espacio entre botones */
+    align-items: center;
   }
 
-  /* 1. EL TÍTULO: Lo mandamos al final (abajo) */
+  /* 1. TÍTULO: Se sale de la cuadrícula y va abajo */
   h1 {
-    order: 2;               /* Orden 2 (va después de los botones) */
-    width: 100%;            /* Ocupa toda la línea de abajo */
-    text-align: center;     /* Centrado */
-    margin-top: 15px;       /* Separación con los botones de arriba */
+    grid-column: 1 / -1; /* Ocupa todo el ancho (de la columna 1 a la última) */
+    grid-row: 2;         /* Se pone en la fila 2 */
+    text-align: center;
+    margin-top: 15px;
     font-size: 18px;
   }
 
-  /* 2. COSAS QUE MOLESTAN: Las ocultamos */
-  .spacer, 
-  header > div {            /* Oculta el espaciador y el div de separación */
+  /* 2. OCULTAR COSAS QUE SOBRAN */
+  .spacer, header > div {
     display: none !important;
   }
 
-  /* 3. LOS 4 BOTONES: Configuración para que quepan en una línea */
-  .langbtn, .music-btn {
-    order: 1;               /* Orden 1 (van arriba) */
-    flex: 1;                /* MAGIA: Todos crecen para ocupar el mismo espacio */
-    min-width: 0;           /* Permite que se encojan si el móvil es muy pequeño */
-    padding: 10px 2px;      /* Relleno vertical cómodo, horizontal mínimo */
-    font-size: 10px;        /* Letra ajustada para que quepa "AMBIENTE" */
-    text-align: center;     
-    white-space: nowrap;    /* Prohibido partir el texto en dos líneas */
-    display: flex;          /* Para centrar el texto perfectamente */
-    align-items: center;
+  /* 3. BOTONES: Reseteo total para que obedezcan a la cuadrícula */
+  button.langbtn {
+    width: 100% !important;     /* Ocupa toda su celda */
+    min-width: 0 !important;    /* IMPORTANTE: Elimina el ancho mínimo que rompía el diseño */
+    padding: 8px 0 !important;  /* Sin padding lateral para ganar espacio */
+    margin: 0 !important;
+    font-size: 10px !important; /* Texto pequeño para que quepa "AMBIENTE" */
+    display: flex;
     justify-content: center;
+    align-items: center;
+    height: 36px;               /* Altura fija para todos */
   }
+
+  /* Asignamos posiciones explícitas (por si acaso) */
+  #btn-mode-ambient { grid-column: 1; grid-row: 1; }
+  #btn-mode-battle  { grid-column: 2; grid-row: 1; }
+  #btn-es           { grid-column: 3; grid-row: 1; }
+  #btn-en           { grid-column: 4; grid-row: 1; }
 }
 </style>
 </head>
