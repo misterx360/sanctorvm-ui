@@ -6,6 +6,7 @@
 <title>ARCHIVOS SONOROS ▷ SANCTORVM</title>
 <meta name="description" content="Standalone demo: password-gated chapters with Catbox audio and sci‑fi UI." />
 <style>
+/* --- CSS EXACTO DE TU VERSIÓN ESTABLE --- */
 :root{--bg:#070a0f;--panel:#0c1119;--panel2:#0e1420;--muted:#8c98b1;--text:#e6ebf5;--accent:#37e1ff;--danger:#ff5e6b;--ok:#32f0a1;--warn:#ffc95a;--glow:rgba(55,225,255,.35)}
 *{box-sizing:border-box}html,body{min-height:100%; height:auto}body{margin:0;font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--text);background:radial-gradient(1200px 800px at 15% -10%,#0e1320 0%,#070a0f 60%,#070a0f 100%);overflow:hidden}
 .app{position:relative;width:min(1100px,95vw);padding:22px;margin:0 auto;}
@@ -134,16 +135,15 @@ body{
   padding-bottom: 10px;
   font-size: 15px;
 }
-/* Fija el ancho de la tarjeta del menú principal */
-#screen-main.card {
-  max-width: 796px;
-}
 /* Fija el ancho de la tarjeta de capítulos a la imagen */
 #screen-chapters.card {
   max-width: 796px;
 }
-
-/* ESTILO NUEVO (Solo para los botones de música) */
+/* Fija el ancho de la tarjeta del menú principal */
+#screen-main.card {
+  max-width: 796px;
+}
+/* NUEVA CLASE para los botones de música (solo ancho mínimo) */
 .music-btn {
     min-width: 85px; 
 }
@@ -500,9 +500,9 @@ const PLAYLIST_AMBIENT = [
 ];
 
 const PLAYLIST_BATTLE = [
-  // ¡AÑADE AQUÍ TUS CANCIONES DE COMBATE!
-  "https://files.catbox.moe/wdz4jb.mp3", // Ejemplo 1
-  "https://files.catbox.moe/9mrglo.mp3"  // Ejemplo 2
+  // ¡AÑADE AQUÍ TUS CANCIONES DE COMBATE! (Uso ejemplos para que no falle)
+  "https://files.catbox.moe/wdz4jb.mp3", 
+  "https://files.catbox.moe/9mrglo.mp3" 
 ];
 
 let currentPlaylistMode = 'ambient'; // 'ambient' o 'battle'
