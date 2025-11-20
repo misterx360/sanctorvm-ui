@@ -157,14 +157,14 @@ body{
     padding-bottom: 0 !important;
   }
 
-  /* 1. TÍTULO: Se sale de la cuadrícula y va abajo */
+ /* 1. TÍTULO: Ajuste de márgenes para centrarlo verticalmente */
   h1 {
     grid-column: 1 / -1; 
     grid-row: 2;         
     text-align: center;
-    /* NUEVO: Reducimos el margen superior e inferior del título */
-    margin-top: 8px;
-    margin-bottom: 0; 
+    /* CAMBIO: Aumentamos mucho el espacio arriba y añadimos abajo */
+    margin-top: 30px !important;   /* Separa del bloque de botones */
+    margin-bottom: 20px !important; /* Separa de la caja de aventuras */
     font-size: 18px;
   }
 
