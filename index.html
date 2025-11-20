@@ -149,23 +149,22 @@ body{
 @media (max-width: 640px) {
   header {
     display: grid !important;
-    /* Definimos 4 columnas: 
-       - 3 partes para Ambiente
-       - 3 partes para Combate
-       - 1 parte para ES
-       - 1 parte para EN 
-    */
     grid-template-columns: 3fr 3fr 1fr 1fr; 
-    gap: 5px; /* Espacio entre botones */
+    gap: 5px; 
     align-items: center;
+    /* NUEVO: Reducimos el margen inferior del header en móvil */
+    margin-bottom: 8px !important; 
+    padding-bottom: 0 !important;
   }
 
   /* 1. TÍTULO: Se sale de la cuadrícula y va abajo */
   h1 {
-    grid-column: 1 / -1; /* Ocupa todo el ancho (de la columna 1 a la última) */
-    grid-row: 2;         /* Se pone en la fila 2 */
+    grid-column: 1 / -1; 
+    grid-row: 2;         
     text-align: center;
-    margin-top: 15px;
+    /* NUEVO: Reducimos el margen superior e inferior del título */
+    margin-top: 8px;
+    margin-bottom: 0; 
     font-size: 18px;
   }
 
@@ -581,10 +580,22 @@ function fadeAmbientDown() {
 player.addEventListener('play', fadeAmbientDown);
 player.addEventListener('playing', fadeAmbientDown);
 
-// Listeners para SUBIR el volumen (Esta es la parte que faltaba)
+// Listeners para SUBIR el volumen (Versión Blindada)
 function fadeAmbientUp() {
   if (ambientEl) {
-    fadeVolume(ambientEl, originalAmbientVolume, 1000); // Fade-in en 1 seg
+    // 1. Seguridad: Si por alguna razón se pausó al estar a volumen 0, le damos play
+    if (ambientEl.paused) {
+        ambientEl.play().catch(()=>{});
+    }
+
+    // 2. Seguridad: Si el volumen es 0 absoluto, lo subimos un pelín de golpe
+    // para que el navegador "despierte" el audio antes de empezar el fade
+    if (ambientEl.volume < 0.05) {
+        ambientEl.volume = 0.05;
+    }
+
+    // 3. Hacemos el fade suave hasta el volumen original
+    fadeVolume(ambientEl, originalAmbientVolume, 1000); 
   }
 }
 player.addEventListener('pause', fadeAmbientUp);
