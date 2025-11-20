@@ -6,7 +6,6 @@
 <title>ARCHIVOS SONOROS ▷ SANCTORVM</title>
 <meta name="description" content="Standalone demo: password-gated chapters with Catbox audio and sci‑fi UI." />
 <style>
-/* --- CSS EXACTO DE TU VERSIÓN ESTABLE --- */
 :root{--bg:#070a0f;--panel:#0c1119;--panel2:#0e1420;--muted:#8c98b1;--text:#e6ebf5;--accent:#37e1ff;--danger:#ff5e6b;--ok:#32f0a1;--warn:#ffc95a;--glow:rgba(55,225,255,.35)}
 *{box-sizing:border-box}html,body{min-height:100%; height:auto}body{margin:0;font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--text);background:radial-gradient(1200px 800px at 15% -10%,#0e1320 0%,#070a0f 60%,#070a0f 100%);overflow:hidden}
 .app{position:relative;width:min(1100px,95vw);padding:22px;margin:0 auto;}
@@ -40,8 +39,12 @@ audio#player{width:100%;margin-top:8px;display:none}
 .playerUI .progress{flex:1;min-width:180px}
 .playerUI input[type="range"]{width:100%}
 
+
+
+
+
 .app{position:relative;z-index:1
-  }
+  }
 .chapter-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .chapter-header .title{flex:1;margin:0}
 .iconbtn{cursor:pointer;background:transparent;border:1px solid #1a2233;color:var(--text);padding:6px 10px;border-radius:999px;font-size:18px;line-height:1}
@@ -50,100 +53,92 @@ audio#player{width:100%;margin-top:8px;display:none}
 
 /* Top banner: always full width */
 #topBanner{
-  display:block;
-  margin:0 auto 28px auto;
-  width:100%;
-  height:auto;
-  max-width:1100px; /* match card's max width */
-  user-select:none;
-  -webkit-user-drag:none;
+  display:block;
+  margin:0 auto 28px auto;
+  width:100%;
+  height:auto;
+  max-width:1100px; /* match card's max width */
+  user-select:none;
+  -webkit-user-drag:none;
 }
 
+
+
 body {
-    background-image: url("https://files.catbox.moe/opgeq4.jpg");
-    background-repeat: no-repeat;
-    background-position: top right;
-    background-size: cover;
-    background-color: var(--bg);
+    background-image: url("https://files.catbox.moe/opgeq4.jpg");
+    background-repeat: no-repeat;
+    background-position: top right;
+    background-size: cover;
+    background-color: var(--bg);
 }
+
 
 /* ===== Autoplay prompt (solo si falla el autoplay) ===== */
 #autoplayPrompt{
-  position: fixed;
-  right: 14px;
-  bottom: 14px;
-  background: linear-gradient(180deg,#0b121e,#0f1828);
-  border:1px solid #1b2a44;
-  border-radius: 999px;
-  padding: 8px 12px;
-  display: none;
-  gap: 8px;
-  z-index: 300;
-  align-items: center;
-  box-shadow: 0 6px 24px rgba(0,0,0,.4);
-  font-size: 13px;
-  color: var(--text);
+  position: fixed;
+  right: 14px;
+  bottom: 14px;
+  background: linear-gradient(180deg,#0b121e,#0f1828);
+  border:1px solid #1b2a44;
+  border-radius: 999px;
+  padding: 8px 12px;
+  display: none;
+  gap: 8px;
+  z-index: 300;
+  align-items: center;
+  box-shadow: 0 6px 24px rgba(0,0,0,.4);
+  font-size: 13px;
+  color: var(--text);
 }
 #autoplayPrompt button{
-  cursor: pointer;
-  background: radial-gradient(120% 140% at 50% -40%,#152034 0%,#0c131f 60%);
-  border:1px solid #1a2438;
-  color: var(--text);
-  padding: 8px 10px;
-  border-radius: 999px;
-  font-weight: 800;
+  cursor: pointer;
+  background: radial-gradient(120% 140% at 50% -40%,#152034 0%,#0c131f 60%);
+  border:1px solid #1a2438;
+  color: var(--text);
+  padding: 8px 10px;
+  border-radius: 999px;
+  font-weight: 800;
 }
 
+
 @media (orientation: landscape) and (max-height: 600px){
-  body{ place-items: start center; }
-  .app{ margin-top: 12px; margin-bottom: 24px; }
+  body{ place-items: start center; }
+  .app{ margin-top: 12px; margin-bottom: 24px; }
 }
 /* Soporte iOS Safari para alturas dinámicas */
 @supports (-webkit-touch-callout: none){
-  body{ min-height: -webkit-fill-available; }
+  body{ min-height: -webkit-fill-available; }
 }
+
 
 /* Alturas dinámicas modernas + scroll vertical garantizado */
 body{
-  min-height: 100dvh;
-  min-height: 100svh;
-  min-height: 100vh;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-bottom: env(safe-area-inset-bottom, 16px); /* que no tape la barra/borde */
+  min-height: 100dvh;
+  min-height: 100svh;
+  min-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: env(safe-area-inset-bottom, 16px); /* que no tape la barra/borde */
 }
 
+
 @media (orientation: landscape){
-  body{ 
-    display: block;         /* evita el centrado por grid que limita el scroll */
-    place-items: initial;   /* por si queda aplicado */
-  }
-  .app{ 
-    margin: 12px auto 24px auto; 
-    width: min(1100px, 95vw);
-  }
+  body{ 
+    display: block;         /* evita el centrado por grid que limita el scroll */
+    place-items: initial;   /* por si queda aplicado */
+  }
+  .app{ 
+    margin: 12px auto 24px auto; 
+    width: min(1100px, 95vw);
+  }
 }
+
 
 /* Subir todo el contenido visual sin mover el fondo */
 .app {
-    position: relative;
-    top: 0px; /* Ajusta este valor para más o menos desplazamiento */
+    position: relative;
+    top: 0px; /* Ajusta este valor para más o menos desplazamiento */
 }
-/* Ajusta el tamaño de los botones de rejilla */
-.grid3 button, .grid5 button {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  font-size: 15px;
-}
-/* Fija el ancho de la tarjeta de capítulos a la imagen */
-#screen-chapters.card {
-  max-width: 796px;
-}
-/* Fija el ancho de la tarjeta del menú principal */
-#screen-main.card {
-  max-width: 796px;
-}
-/* NUEVA CLASE para los botones de música (solo ancho mínimo) */
 .music-btn {
     min-width: 85px; 
 }
@@ -156,43 +151,45 @@ body{
 <header>
     <h1 data-i18n="app_title">ARCHIVOS SONOROS</h1>
     <div class="spacer"></div>
-    
-    <button id="btn-mode-ambient" class="langbtn music-btn active" data-i18n="btn_ambient">Ambiente</button>
-    <button id="btn-mode-battle" class="langbtn music-btn" data-i18n="btn_battle">Combate</button>
-    <div style="width: 10px;"></div>
-    
-    <button id="btn-es" class="langbtn active" title="Español">ES</button>
+<button id="btn-mode-ambient" class="langbtn music-btn active" data-i18n="btn_ambient">Ambiente</button>
+<button id="btn-mode-battle" class="langbtn music-btn" data-i18n="btn_battle">Combate</button>
+<div style="width: 10px;"></div>
+    <button id="btn-es" class="langbtn active" title="Español">ES</button>
     <button id="btn-en" class="langbtn" title="English">EN</button>
   </header>
 
-  <section id="screen-main" class="card">
-    <div class="welcome"><span>🧪</span><div id="welcome-text">Bienvenido/a a los archivos sonoros de SANCTORVM. Selecciona una aventura para ver sus capítulos.</div></div>
-    <p class="title" data-i18n="main_menu">AVENTURAS</p>
-    <div class="grid3" id="collections"></div>
-      </section>
+  <section id="screen-main" class="card">
+    <div class="welcome"><span>🧪</span><div id="welcome-text">Bienvenido/a a los archivos sonoros de SANCTORVM. Selecciona una aventura para ver sus capítulos.</div></div>
+    <p class="title" data-i18n="main_menu">AVENTURAS</p>
+    <div class="grid3" id="collections"></div>
+    <!-- Subtitle removed as requested -->
+  </section>
 
-  <section id="screen-chapters" class="card hidden">
-    <div class="chapter-header">
-      <p class="title"><span id="chapters-title"></span></p>
-      <button id="btn-back" class="iconbtn" title="Volver">⟵</button>
-    </div>
-    <div class="grid5" id="chapters"></div>
-    <p id="chapter-note" class="italic-note">(Selecciona un capítulo)</p>
-    <div id="status" class="status"></div>
-        <div id="playerContainer"></div>
-  </section>
+  <section id="screen-chapters" class="card hidden">
+    <div class="chapter-header">
+      <p class="title"><span id="chapters-title"></span></p>
+      <button id="btn-back" class="iconbtn" title="Volver">⟵</button>
+    </div>
+    <div class="grid5" id="chapters"></div>
+    <p id="chapter-note" class="italic-note">(Selecciona un capítulo)</p>
+    <div id="status" class="status"></div>
+    <!-- Player pinned at the very bottom -->
+    <div id="playerContainer"></div>
+  </section>
 </div>
 
 <div id="modal" class="modal" role="dialog" aria-modal="true">
-  <div class="box">
-    <h2 id="modal-title">Introduce la contraseña</h2>
-    <p class="muted" id="modal-sub">&nbsp;</p>
-    <div class="field"><input id="modal-input" type="password" placeholder="Contraseña exacta" /></div>
-    <div class="actions"><button id="modal-cancel" class="accent">Cancelar</button><button id="modal-ok" class="accent">Confirmar</button></div>
-    <div id="modal-msg" class="status"></div>
-  </div>
+  <div class="box">
+    <h2 id="modal-title">Introduce la contraseña</h2>
+    <p class="muted" id="modal-sub">&nbsp;</p>
+    <div class="field"><input id="modal-input" type="password" placeholder="Contraseña exacta" /></div>
+    <div class="actions"><button id="modal-cancel" class="accent">Cancelar</button><button id="modal-ok" class="accent">Confirmar</button></div>
+    <div id="modal-msg" class="status"></div>
+  </div>
 </div>
 
+<!-- native audio (hidden) -->
+<!-- Ambient loop audio (hidden) -->
 <audio id="ambient" autoplay playsinline preload="auto" loop style="display:none"></audio>
 <div id="autoplayPrompt">🔊 El sonido está pausado por tu navegador <button id="autoplayEnable">Activar sonido</button></div>
 
@@ -215,9 +212,7 @@ const I18N={
     chapter:n=>`Capítulo ${n}`,
     select_chapter:'Selecciona capítulo',
     welcome:'Bienvenido/a a los archivos sonoros de SANCTORVM. Selecciona una aventura para ver sus capítulos.',
-    select_note:'(Selecciona un capítulo)',
-    btn_ambient: 'Ambiente', // NUEVO
-    btn_battle: 'Combate'    // NUEVO
+    select_note:'(Selecciona un capítulo)'
   },
   en:{
     app_title:'SOUND FILES',
@@ -233,9 +228,7 @@ const I18N={
     chapter:n=>`Chapter ${n}`,
     select_chapter:'Select chapter',
     welcome:'Welcome to SANCTORVM sound files. Pick an adventure to view its chapters.',
-    select_note:'(Select a chapter)',
-    btn_ambient: 'Ambient', // NUEVO
-    btn_battle: 'Battle'    // NUEVO
+    select_note:'(Select a chapter)'
   }
 };
 const COLLECTION_KEYS=['Loud Laugh','Mad March','Red Radiance','Steel Steps','Whisper Walls'];
@@ -304,7 +297,7 @@ function ensurePlayerUI(collectionKey,chapterIndex){
   const controls=document.createElement('div');
   controls.className='controls';
   playBtn=document.createElement('button');
-  playBtn.textContent='▶︎/⏸';
+  playBtn.textContent='▶/⏸';
   stopBtn=document.createElement('button');
   stopBtn.innerHTML='<span class="square">■</span>';
   progress=document.createElement('input');
@@ -354,18 +347,7 @@ function showPlayer(collectionKey,chapterIndex,url){
 // ===== State & UI =====
 let currentCollection=null,pendingChapterIndex=null,currentChapterIndex=null;
 function status(msg,ok=false){ statusBox.innerHTML=msg? (ok?`<span class="ok">${msg}</span>`:`<span class="err">${msg}</span>`):''; }
-function goToMain() {
-  screenCh.classList.add('hidden');
-  screenMain.classList.remove('hidden');
-  status('');
-  try { player.pause(); } catch (_) { }
-  document.getElementById('playerContainer').innerHTML = '';
-  
-  // Limpia el fondo de la "tarjeta" de capítulos
-  if (screenCh) {
-    screenCh.style.backgroundImage = 'none';
-  }
-}
+function goToMain(){ screenCh.classList.add('hidden'); screenMain.classList.remove('hidden'); status(''); try{player.pause();}catch(_){} document.getElementById('playerContainer').innerHTML=''; document.getElementById('bg').style.backgroundImage='none'; }
 function goToChapters(collection) {
   currentCollection = collection;
   chaptersTitle.textContent = String(collection).toUpperCase();
@@ -375,22 +357,11 @@ function goToChapters(collection) {
 
   // Fondo según la aventura
   const backgrounds = {
-      'Loud Laugh': 'https://files.catbox.moe/9dpsi4.png',
-      'Mad March': 'https://files.catbox.moe/1d4k6a.png',
-      'Red Radiance': 'https://files.catbox.moe/w4ixe8.png',
-      'Steel Steps': 'https://files.catbox.moe/z1as3t.png', 
-      'Whisper Walls': 'https://files.catbox.moe/u2zv2z.png'
+      'Loud Laugh': 'https://files.catbox.moe/ppjfrm.jpg',
+      'Mad March': 'https://files.catbox.moe/iodwo5.jpg',
+      'Red Radiance': 'https://files.catbox.moe/htdl8o.jpg'
   };
   
-  const newBg = backgrounds[collection];
-  
-  if (screenCh) {
-    screenCh.style.backgroundImage = newBg ? `url(${newBg})` : 'none';
-    
-    screenCh.style.backgroundSize = '100% auto'; // 100% de ancho, altura automática
-    screenCh.style.backgroundPosition = 'center top'; 
-    screenCh.style.backgroundRepeat = 'no-repeat';
-  }
 }
 
 // ===== Simple UI sounds =====
@@ -457,31 +428,42 @@ applyI18N();
 // ==========================================================
 // Fade de Volumen
 // ==========================================================
+/**
+ * Atenúa el volumen de un elemento de audio de forma gradual.
+ * @param {HTMLAudioElement} audioElement El elemento de audio (ej. ambientEl)
+ * @param {number} targetVolume El volumen al que queremos llegar (ej. 0.1 o 0.4)
+ * @param {number} duration La duración del fade en milisegundos (ej. 1000)
+ */
 function fadeVolume(audioElement, targetVolume, duration = 1000) {
+  // Limpiar cualquier fade anterior que estuviera en curso
   if (audioElement._fadeInterval) {
     clearInterval(audioElement._fadeInterval);
   }
 
   const startVolume = audioElement.volume;
   const volumeChange = targetVolume - startVolume;
-  if (volumeChange === 0) return;
+  if (volumeChange === 0) return; // Ya está en ese volumen
 
-  const stepDuration = 25;
+  const stepDuration = 25; // 25ms por paso (40 pasos por segundo)
   const totalSteps = duration / stepDuration;
   const volumeStep = volumeChange / totalSteps;
 
   audioElement._fadeInterval = setInterval(() => {
     const newVolume = audioElement.volume + volumeStep;
-    
+    
+    // Comprobar si hemos llegado (o pasado) el objetivo
     if ((volumeStep > 0 && newVolume >= targetVolume) || (volumeStep < 0 && newVolume <= targetVolume)) {
-      audioElement.volume = targetVolume;
-      clearInterval(audioElement._fadeInterval);
+      audioElement.volume = targetVolume; // Fijar el volumen final
+      clearInterval(audioElement._fadeInterval); // Detener el intervalo
       audioElement._fadeInterval = null;
     } else {
       audioElement.volume = newVolume;
     }
   }, stepDuration);
 }
+// ==========================================================
+// FIN de la función Fade
+// ==========================================================
 
 // ===== LISTAS DE REPRODUCCIÓN (AMBIENTE Y COMBATE) =====
 
@@ -500,13 +482,12 @@ const PLAYLIST_AMBIENT = [
 ];
 
 const PLAYLIST_BATTLE = [
-  // ¡AÑADE AQUÍ TUS CANCIONES DE COMBATE! (Uso ejemplos para que no falle)
+  // ¡AÑADE AQUÍ TUS CANCIONES DE COMBATE! 
   "https://files.catbox.moe/wdz4jb.mp3", 
   "https://files.catbox.moe/9mrglo.mp3" 
 ];
 
-let currentPlaylistMode = 'ambient'; // 'ambient' o 'battle'
-
+let currentPlaylistMode = 'ambient'; // Por defecto
 let AMBIENT_VOLUME = 0.4;
 const ambientEl = document.getElementById('ambient') || new Audio();
 ambientEl.loop = false;
@@ -514,23 +495,22 @@ ambientEl.volume = AMBIENT_VOLUME;
 ambientEl.preload = 'auto';
 let currentTrackIndex = -1;
 
-// Reproducir la siguiente pista aleatoria al terminar
-ambientEl.addEventListener('ended', () => {
-  playRandomAmbientTrack(true);
-  ambientEl.play().catch(()=>{});
-});
 
 // ==========================================================
-// Audio Ducking (CON FADE)
+// Audio Ducking (CON FADE) - (Bloque completo y corregido)
 // ==========================================================
-const originalAmbientVolume = AMBIENT_VOLUME;
-const duckedAmbientVolume = originalAmbientVolume * 0.35;
+const originalAmbientVolume = AMBIENT_VOLUME; // Guardamos el volumen original
+const duckedAmbientVolume = originalAmbientVolume * 0.35; // Reducido al 35%
 
+// Listeners para BAJAR el volumen
 function fadeAmbientDown() {
   if (ambientEl) {
+    // Lógica condicional para Steel Steps
     if (currentCollection === 'Steel Steps' && currentChapterIndex === 0) {
-      fadeVolume(ambientEl, 0, 1000); 
+      // Si es esta canción, mutear ambiente por completo
+      fadeVolume(ambientEl, 0, 1000); 
     } else {
+      // Para cualquier otro archivo, solo atenuar
       fadeVolume(ambientEl, duckedAmbientVolume, 1000);
     }
   }
@@ -538,18 +518,114 @@ function fadeAmbientDown() {
 player.addEventListener('play', fadeAmbientDown);
 player.addEventListener('playing', fadeAmbientDown);
 
+// Listeners para SUBIR el volumen (Esta es la parte que faltaba)
 function fadeAmbientUp() {
   if (ambientEl) {
-    fadeVolume(ambientEl, originalAmbientVolume, 1000);
+    fadeVolume(ambientEl, originalAmbientVolume, 1000); // Fade-in en 1 seg
   }
 }
 player.addEventListener('pause', fadeAmbientUp);
 player.addEventListener('ended', fadeAmbientUp);
 player.addEventListener('emptied', fadeAmbientUp);
-
+// ==========================================================
+// FIN del bloque de Audio Ducking
+// ==========================================================
 
 /**
- * Elige una pista aleatoria de la LISTA ACTIVA.
+ * Elige una pista aleatoria de la AMBIENT_PLAYLIST y la reproduce.
+ * Si forceNext = true, saltará a una pista diferente de la actual.
+* Si forceNext = false, solo iniciará la música si estaba pausada.
+ */
+function playRandomAmbientTrack(forceNext = false) {
+  if (AMBIENT_PLAYLIST.length === 0) return; // No hacer nada si la lista está vacía
+
+  // Si no forzamos, y ya está sonando, no hacer nada (ej. al volver a la pestaña)
+  if (!forceNext && !ambientEl.paused && ambientEl.src) {
+    return; 
+  }
+
+  let newIndex = currentTrackIndex;
+  
+  // Elegir una nueva pista que NO sea la actual
+  if (AMBIENT_PLAYLIST.length > 1 && (forceNext || !ambientEl.src)) { // Forzar si es 'skip' O si es la primera carga
+    while (newIndex === currentTrackIndex) {
+      newIndex = Math.floor(Math.random() * AMBIENT_PLAYLIST.length);
+    }
+  } else if (newIndex === -1) { 
+    // Si no había nada y no forzamos (ej. al recargar pestaña), coger una al azar
+    newIndex = Math.floor(Math.random() * AMBIENT_PLAYLIST.length);
+  }
+  
+  currentTrackIndex = newIndex;
+  const newSrc = AMBIENT_PLAYLIST[currentTrackIndex];
+  
+  // Cargar y reproducir solo si la fuente es realmente nueva o si estaba pausado
+  if (ambientEl.src !== newSrc || ambientEl.paused) {
+    ambientEl.src = newSrc;
+    // Asegurarse de que el volumen es el correcto (no el "ducked")
+    ambientEl.volume = (player.paused) ? originalAmbientVolume : duckedAmbientVolume; 
+  }
+  
+  // El .play() lo maneja la función que llama (tryPlayAmbientStrict)
+}
+
+// ===== Lógica de Autoplay (Modificada) =====
+const autoplayPrompt = document.getElementById('autoplayPrompt');
+const autoplayEnableBtn = document.getElementById('autoplayEnable');
+
+async function tryPlayAmbientStrict(){
+  // Asegurarse de que el volumen es el correcto al inicio
+  ambientEl.volume = (player.paused) ? originalAmbientVolume : duckedAmbientVolume;
+  // 1. Elegir la pista ANTES de intentar reproducir
+  playRandomAmbientTrack(false); 
+  
+  try{
+    // 2. Intentar reproducir la pista seleccionada
+    await ambientEl.play();
+    if (autoplayPrompt) autoplayPrompt.style.display = 'none';
+    return true;
+  }catch(e){
+    // Si el navegador bloquea el autoplay con sonido
+    if (autoplayPrompt) autoplayPrompt.style.display = 'flex';
+    return false;
+  }
+}
+
+function attachAutoplayUnlockers(){
+  const unlock = async () => {
+    await tryPlayAmbientStrict();
+    // Si ya se está reproduciendo, removemos listeners de desbloqueo
+    if (!ambientEl.paused){
+      document.removeEventListener('pointerdown', unlock);
+      document.removeEventListener('keydown', unlock);
+      document.removeEventListener('touchstart', unlock);
+    }
+  };
+  document.addEventListener('pointerdown', unlock);
+  document.addEventListener('keydown', unlock);
+  document.addEventListener('touchstart', unlock);
+}
+
+window.addEventListener('load', async () => {
+  const ok = await tryPlayAmbientStrict();
+  attachAutoplayUnlockers();
+});
+
+if (autoplayEnableBtn){
+  autoplayEnableBtn.addEventListener('click', async ()=>{
+    await tryPlayAmbientStrict();
+  });
+}
+
+// Reintento al volver a la pestaña
+document.addEventListener('visibilitychange', ()=>{
+  if (document.visibilityState === 'visible' && ambientEl.paused){
+    tryPlayAmbientStrict();
+  }
+});
+
+/**
+ * Elige una pista aleatoria de la LISTA ACTIVA (Ambient o Battle).
  */
 function playRandomAmbientTrack(forceNext = false) {
   // Elegir la lista correcta según el modo actual
@@ -576,88 +652,29 @@ function playRandomAmbientTrack(forceNext = false) {
   
   if (ambientEl.src !== newSrc || ambientEl.paused) {
     ambientEl.src = newSrc;
+    // IMPORTANTE: Mantener el volumen correcto (respetando el ducking si hay un audio sonando)
     ambientEl.volume = (player.paused) ? originalAmbientVolume : duckedAmbientVolume; 
   }
 }
 
-// Función para cambiar el modo de música Y saltar de canción si se pulsa el mismo botón
+// Función para cambiar modo O saltar canción
 function switchMusicMode(mode) {
-    // Si ya estamos en este modo, forzamos salto de canción (Skip)
-    // Si cambiamos de modo, cambiamos la lista y saltamos de canción
-    
     if (currentPlaylistMode !== mode) {
+        // Si cambiamos de modo (ej. de Ambient a Battle)
         currentPlaylistMode = mode;
-        currentTrackIndex = -1; // Resetear índice al cambiar de lista
+        currentTrackIndex = -1; 
         
-        // Actualizar estilo visual de botones
-        const btnAmbient = document.getElementById('btn-mode-ambient');
-        const btnBattle = document.getElementById('btn-mode-battle');
-        
-        if (mode === 'ambient') {
-            btnAmbient.classList.add('active');
-            btnBattle.classList.remove('active');
-        } else {
-            btnAmbient.classList.remove('active');
-            btnBattle.classList.add('active');
-        }
+        // Actualizar botones visualmente
+        document.getElementById('btn-mode-ambient').classList.toggle('active', mode === 'ambient');
+        document.getElementById('btn-mode-battle').classList.toggle('active', mode === 'battle');
     }
-
-    // En ambos casos (cambio de modo o skip), reproducimos nueva pista
+    
+    // En cualquier caso (cambio de modo O click en el mismo botón), ponemos canción nueva
     playRandomAmbientTrack(true);
     ambientEl.play().catch(()=>{});
 }
 
-// ===== Lógica de Autoplay =====
-const autoplayPrompt = document.getElementById('autoplayPrompt');
-const autoplayEnableBtn = document.getElementById('autoplayEnable');
-
-async function tryPlayAmbientStrict(){
-  ambientEl.volume = (player.paused) ? originalAmbientVolume : duckedAmbientVolume;
-  playRandomAmbientTrack(false); 
-  
-  try{
-    await ambientEl.play();
-    if (autoplayPrompt) autoplayPrompt.style.display = 'none';
-    return true;
-  }catch(e){
-    if (autoplayPrompt) autoplayPrompt.style.display = 'flex';
-    return false;
-  }
-}
-
-function attachAutoplayUnlockers(){
-  const unlock = async () => {
-    await tryPlayAmbientStrict();
-    if (!ambientEl.paused){
-      document.removeEventListener('pointerdown', unlock);
-      document.removeEventListener('keydown', unlock);
-      document.removeEventListener('touchstart', unlock);
-    }
-  };
-  document.addEventListener('pointerdown', unlock);
-  document.addEventListener('keydown', unlock);
-  document.addEventListener('touchstart', unlock);
-}
-
-window.addEventListener('load', async () => {
-  const ok = await tryPlayAmbientStrict();
-  attachAutoplayUnlockers();
-});
-
-if (autoplayEnableBtn){
-  autoplayEnableBtn.addEventListener('click', async ()=>{
-    await tryPlayAmbientStrict();
-  });
-}
-
-document.addEventListener('visibilitychange', ()=>{
-  if (document.visibilityState === 'visible' && ambientEl.paused){
-    tryPlayAmbientStrict();
-  }
-});
-
-
-// ===== Listeners de los botones =====
+// ===== EVENTOS DE LOS NUEVOS BOTONES =====
 const btnModeAmbient = document.getElementById('btn-mode-ambient');
 if (btnModeAmbient) {
     btnModeAmbient.addEventListener('click', () => switchMusicMode('ambient'));
@@ -667,6 +684,8 @@ const btnModeBattle = document.getElementById('btn-mode-battle');
 if (btnModeBattle) {
     btnModeBattle.addEventListener('click', () => switchMusicMode('battle'));
 }
+
+
 
 </script>
 </body>
