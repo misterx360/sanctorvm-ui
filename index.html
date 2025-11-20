@@ -142,52 +142,65 @@ body{
 .music-btn {
     min-width: 85px; 
 }
+
   /* =========================================
-   AJUSTES PARA MÓVIL (DISEÑO NUEVO)
+   AJUSTES PARA MÓVIL (CORREGIDO)
    ========================================= */
 @media (max-width: 640px) {
   header {
     flex-wrap: wrap;       /* Permite varias líneas */
-    padding-bottom: 10px;  /* Un poco de aire abajo */
+    justify-content: space-between; /* Distribuye a los extremos */
+    gap: 5px;              /* Reduce huecos para que quepan */
   }
 
-  /* 1. El Título baja al final */
+  /* 1. EL TÍTULO: Baja al final (Fila 2) */
   h1 {
-    order: 3;              /* Orden 3: Se pone debajo de los botones */
-    width: 100%;           /* Ocupa toda la línea */
+    order: 10;             /* Orden alto para ir al final */
+    width: 100%;           /* Ocupa toda la línea de abajo */
     text-align: center;    /* Centrado */
-    margin-top: 15px;      /* Separación con los botones de arriba */
+    margin-top: 15px;      /* Separación con los botones */
     font-size: 18px;
   }
 
-  /* 2. El espaciador grande de escritorio desaparece */
+  /* 2. OCULTAR espaciador de escritorio */
   .spacer {
     display: none;
   }
 
-  /* 3. Los botones de música se quedan a la izquierda (Orden natural 0) */
-  /* No hace falta poner CSS extra, se quedan primeros por defecto */
-
-  /* 4. El separador pequeño crece para empujar lo demás a la derecha */
+  /* 3. SEPARADOR CENTRAL: Empuja los grupos (Fila 1, Centro) */
   .button-separator {
-    flex-grow: 1;          /* Ocupa todo el espacio disponible */
-    order: 1;              /* Se queda en medio de los botones */
+    display: block !important; /* Forzamos que se vea */
+    flex-grow: 1;              /* Ocupa todo el espacio vacío del medio */
+    order: 2;                  /* Se coloca entre los dos grupos */
+    min-width: 10px;           /* Espacio mínimo de seguridad */
   }
 
-  /* 5. Los botones de idioma se quedan a la derecha */
+  /* 4. IZQUIERDA: Ambiente y Combate (Fila 1, Izquierda) */
+  #btn-mode-ambient, #btn-mode-battle {
+    order: 1;
+    flex-grow: 0; /* No estirar, tamaño natural */
+  }
+
+  /* 5. DERECHA: ES y EN (Fila 1, Derecha) */
   #btn-es, #btn-en {
-    order: 2;              /* Van después del separador */
+    order: 3;
+    flex-grow: 0;
   }
 
-  /* Ajuste de botones para móvil */
+  /* AJUSTES DE TAMAÑO PARA QUE QUEPAN */
   .langbtn {
-    padding: 8px 10px;     /* Tamaño cómodo */
-    font-size: 12px;
+    padding: 6px 8px;      /* Reducimos un poco el relleno */
+    font-size: 11px;       /* Fuente un pelín más pequeña */
+    height: 32px;          /* Altura fija para uniformidad */
+    line-height: 1;        /* Centrado vertical */
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
-  /* Quitamos anchos mínimos fijos en móvil para que quepan mejor */
+  /* Quitamos el ancho mínimo en móvil para ahorrar espacio */
   .music-btn {
-      min-width: auto;
+    min-width: auto;
   }
 }
 </style>
