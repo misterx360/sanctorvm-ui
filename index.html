@@ -9,11 +9,12 @@
 :root{--bg:#070a0f;--panel:#0c1119;--panel2:#0e1420;--muted:#8c98b1;--text:#e6ebf5;--accent:#37e1ff;--danger:#ff5e6b;--ok:#32f0a1;--warn:#ffc95a;--glow:rgba(55,225,255,.35)}
 *{box-sizing:border-box}html,body{min-height:100%; height:auto}body{margin:0;font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--text);background:radial-gradient(1200px 800px at 15% -10%,#0e1320 0%,#070a0f 60%,#070a0f 100%);overflow:hidden}
 .app{position:relative;width:min(1100px,95vw);padding:22px;margin:0 auto;}
-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;} /* Added wrap for small screens */
+header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 h1{margin:0;font-size:clamp(16px,3.3vw,22px);letter-spacing:.6px;text-shadow:0 0 8px var(--glow)}
 .spacer{flex:1}.langbtn{cursor:pointer;background:linear-gradient(180deg,var(--panel) 0%,var(--panel2) 100%);border:1px solid #1a2233;color:var(--text);padding:8px 10px;border-radius:10px;font-weight:800}.langbtn.active{border-color:#2b9ab0;box-shadow:0 0 18px 0 var(--glow)}
-.card{background:linear-gradient(180deg,var(--panel) 0%,var(--panel2) 100%);border:1px solid #192233;border-radius:16px;padding:18px 16px;box-shadow:0 10px 40px #0006,inset 0 0 0 1px #0b1320;margin: 0 auto;}
-.grid3{display:grid;grid-template-columns:1fr;gap:12px;max-width:550px;margin:0 auto;}.grid5{display:grid;grid-template-columns:1fr;gap:10px;max-width:550px;margin:0 auto;}
+.card{background:linear-gradient(180deg,var(--panel) 0%,var(--panel2) 100%);border:1px solid #192233;border-radius:16px;padding:18px 16px;box-shadow:0 10px 40px #0006,inset 0 0 0 1px #0b1320}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+@media(max-width:880px){.grid3{grid-template-columns:1fr}.grid5{grid-template-columns:repeat(2,1fr)}}
 button{cursor:pointer;background:radial-gradient(120% 140% at 50% -40%,#152034 0%,#0c131f 60%);border:1px solid #1a2438;color:var(--text);padding:14px 12px;border-radius:12px;font-weight:800;letter-spacing:.4px;transition:.15s ease}
 button:hover{border-color:#2a3d60;transform:translateY(-1px)}button:active{transform:translateY(0)}.accent{border-color:#2b9ab0}
 .row{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-top:12px}
@@ -37,6 +38,7 @@ audio#player{width:100%;margin-top:8px;display:none}
 .playerUI .controls .square{font-size:14px} /* stop icon (square) */
 .playerUI .progress{flex:1;min-width:180px}
 .playerUI input[type="range"]{width:100%}
+
 .app{position:relative;z-index:1
   }
 .chapter-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
@@ -55,6 +57,7 @@ audio#player{width:100%;margin-top:8px;display:none}
   user-select:none;
   -webkit-user-drag:none;
 }
+
 body {
     background-image: url("https://files.catbox.moe/opgeq4.jpg");
     background-repeat: no-repeat;
@@ -62,6 +65,7 @@ body {
     background-size: cover;
     background-color: var(--bg);
 }
+
 /* ===== Autoplay prompt (solo si falla el autoplay) ===== */
 #autoplayPrompt{
   position: fixed;
@@ -88,6 +92,7 @@ body {
   border-radius: 999px;
   font-weight: 800;
 }
+
 @media (orientation: landscape) and (max-height: 600px){
   body{ place-items: start center; }
   .app{ margin-top: 12px; margin-bottom: 24px; }
@@ -96,6 +101,7 @@ body {
 @supports (-webkit-touch-callout: none){
   body{ min-height: -webkit-fill-available; }
 }
+
 /* Alturas dinámicas modernas + scroll vertical garantizado */
 body{
   min-height: 100dvh;
@@ -105,6 +111,7 @@ body{
   overflow-x: hidden;
   padding-bottom: env(safe-area-inset-bottom, 16px); /* que no tape la barra/borde */
 }
+
 @media (orientation: landscape){
   body{ 
     display: block;         /* evita el centrado por grid que limita el scroll */
@@ -115,6 +122,7 @@ body{
     width: min(1100px, 95vw);
   }
 }
+
 /* Subir todo el contenido visual sin mover el fondo */
 .app {
     position: relative;
@@ -134,11 +142,9 @@ body{
 #screen-chapters.card {
   max-width: 796px;
 }
-/* Estilo para separar botones de musica */
-.music-controls {
-  display: flex;
-  gap: 6px;
-  margin-right: 12px;
+/* Clase para los botones de musica */
+.music-btn {
+    min-width: 80px; /* Un poco más anchos para el texto */
 }
 </style>
 </head>
@@ -150,11 +156,10 @@ body{
     <h1 data-i18n="app_title">ARCHIVOS SONOROS</h1>
     <div class="spacer"></div>
     
-    <div class="music-controls">
-        <button id="btn-mode-ambient" class="langbtn active" data-i18n="btn_ambient">Ambient</button>
-        <button id="btn-mode-battle" class="langbtn" data-i18n="btn_battle">Battle</button>
-        <button id="btn-music-skip" class="langbtn" title="Siguiente Pista">»</button>
-    </div>
+    <button id="btn-mode-ambient" class="langbtn music-btn active" data-i18n="btn_ambient">Ambiente</button>
+    <button id="btn-mode-battle" class="langbtn music-btn" data-i18n="btn_battle">Combate</button>
+    
+    <div style="width: 8px;"></div>
 
     <button id="btn-es" class="langbtn active" title="Español">ES</button>
     <button id="btn-en" class="langbtn" title="English">EN</button>
@@ -211,8 +216,8 @@ const I18N={
     select_chapter:'Selecciona capítulo',
     welcome:'Bienvenido/a a los archivos sonoros de SANCTORVM. Selecciona una aventura para ver sus capítulos.',
     select_note:'(Selecciona un capítulo)',
-    btn_ambient: 'Ambiente', // NUEVO
-    btn_battle: 'Combate'    // NUEVO
+    btn_ambient: 'Ambiente', // TEXTO NUEVO
+    btn_battle: 'Combate'    // TEXTO NUEVO
   },
   en:{
     app_title:'SOUND FILES',
@@ -229,8 +234,8 @@ const I18N={
     select_chapter:'Select chapter',
     welcome:'Welcome to SANCTORVM sound files. Pick an adventure to view its chapters.',
     select_note:'(Select a chapter)',
-    btn_ambient: 'Ambient', // NUEVO
-    btn_battle: 'Battle'    // NUEVO
+    btn_ambient: 'Ambient', // TEXTO NUEVO
+    btn_battle: 'Battle'    // TEXTO NUEVO
   }
 };
 const COLLECTION_KEYS=['Loud Laugh','Mad March','Red Radiance','Steel Steps','Whisper Walls'];
@@ -479,7 +484,6 @@ function fadeVolume(audioElement, targetVolume, duration = 1000) {
 }
 
 // ===== LISTAS DE REPRODUCCIÓN (AMBIENTE Y COMBATE) =====
-// He dividido la lista en dos. ¡Añade tus URLs de combate aquí abajo!
 
 const PLAYLIST_AMBIENT = [
   "https://files.catbox.moe/9mrglo.mp3",
@@ -496,13 +500,11 @@ const PLAYLIST_AMBIENT = [
 ];
 
 const PLAYLIST_BATTLE = [
-  // ¡AÑADE AQUÍ TUS CANCIONES DE COMBATE! 
-  // Pongo ejemplos duplicados de ambiente por ahora para que no falle si lo pruebas vacio
+  // ¡AÑADE AQUÍ TUS CANCIONES DE COMBATE! (Uso ejemplos para que no falle)
   "https://files.catbox.moe/wdz4jb.mp3", 
   "https://files.catbox.moe/9mrglo.mp3" 
 ];
 
-let currentPlaylist = PLAYLIST_AMBIENT; // Empezamos con ambiente por defecto
 let currentPlaylistMode = 'ambient'; // 'ambient' o 'battle'
 
 let AMBIENT_VOLUME = 0.4;
@@ -580,10 +582,11 @@ function playRandomAmbientTrack(forceNext = false) {
 
 // Función para cambiar el modo de música (Ambiente <-> Combate)
 function switchMusicMode(mode) {
-    if (currentPlaylistMode === mode) return; // Ya estamos en ese modo
-
+    // Si pulsamos el mismo modo, simplemente pasamos a la siguiente canción
+    // Si cambiamos de modo, cambiamos la lista y pasamos a la siguiente canción
+    
     currentPlaylistMode = mode;
-    currentTrackIndex = -1; // Resetear índice para evitar bloqueos
+    currentTrackIndex = -1; // Resetear índice para evitar bloqueos al cambiar de lista
 
     // Actualizar estilo de botones
     const btnAmbient = document.getElementById('btn-mode-ambient');
@@ -597,7 +600,7 @@ function switchMusicMode(mode) {
         btnBattle.classList.add('active');
     }
 
-    // Reproducir inmediatamente una nueva pista del nuevo modo
+    // Reproducir inmediatamente una nueva pista del modo seleccionado
     playRandomAmbientTrack(true);
     ambientEl.play().catch(()=>{});
 }
@@ -653,13 +656,6 @@ document.addEventListener('visibilitychange', ()=>{
 
 
 // ===== Eventos de los botones de música =====
-const skipButton = document.getElementById('btn-music-skip');
-if (skipButton) {
-  skipButton.addEventListener('click', () => {
-    playRandomAmbientTrack(true);
-    ambientEl.play().catch(()=>{}); 
-  });
-}
 
 const btnModeAmbient = document.getElementById('btn-mode-ambient');
 if (btnModeAmbient) {
