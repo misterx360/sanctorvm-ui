@@ -7,8 +7,9 @@
 <meta name="description" content="Standalone demo: password-gated chapters with Catbox audio and sci‑fi UI." />
 <style>
 :root{--bg:#070a0f;--panel:#0c1119;--panel2:#0e1420;--muted:#8c98b1;--text:#e6ebf5;--accent:#37e1ff;--danger:#ff5e6b;--ok:#32f0a1;--warn:#ffc95a;--glow:rgba(55,225,255,.35)}
-*{box-sizing:border-box}html,body{min-height:100%; height:auto}body{margin:0;font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--text);background:radial-gradient(1200px 800px at 15% -10%,#0e1320 0%,#070a0f 60%,#070a0f 100%);overflow:hidden}
-.app{position:relative;width:min(1100px,95vw);padding:22px;margin:0 auto;}
+*{box-sizing:border-box}html,body{min-height:100%; height:auto}body{margin:0;font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--text);background:radial-gradient(1200px 800px at 15% -10%,#0e1320 0%,#070a0f 60%,#070a0f 100%);display:grid;place-items:center;overflow:hidden}
+.app{position:relative;width:min(1100px,95vw);padding:22px
+  }
 header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 h1{margin:0;font-size:clamp(16px,3.3vw,22px);letter-spacing:.6px;text-shadow:0 0 8px var(--glow)}
 .spacer{flex:1}.langbtn{cursor:pointer;background:linear-gradient(180deg,var(--panel) 0%,var(--panel2) 100%);border:1px solid #1a2233;color:var(--text);padding:8px 10px;border-radius:10px;font-weight:800}.langbtn.active{border-color:#2b9ab0;box-shadow:0 0 18px 0 var(--glow)}
@@ -39,6 +40,10 @@ audio#player{width:100%;margin-top:8px;display:none}
 .playerUI .progress{flex:1;min-width:180px}
 .playerUI input[type="range"]{width:100%}
 
+
+
+
+
 .app{position:relative;z-index:1
   }
 .chapter-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
@@ -58,6 +63,8 @@ audio#player{width:100%;margin-top:8px;display:none}
   -webkit-user-drag:none;
 }
 
+
+
 body {
     background-image: url("https://files.catbox.moe/opgeq4.jpg");
     background-repeat: no-repeat;
@@ -65,6 +72,7 @@ body {
     background-size: cover;
     background-color: var(--bg);
 }
+
 
 /* ===== Autoplay prompt (solo si falla el autoplay) ===== */
 #autoplayPrompt{
@@ -93,6 +101,7 @@ body {
   font-weight: 800;
 }
 
+
 @media (orientation: landscape) and (max-height: 600px){
   body{ place-items: start center; }
   .app{ margin-top: 12px; margin-bottom: 24px; }
@@ -101,6 +110,7 @@ body {
 @supports (-webkit-touch-callout: none){
   body{ min-height: -webkit-fill-available; }
 }
+
 
 /* Alturas dinámicas modernas + scroll vertical garantizado */
 body{
@@ -111,6 +121,7 @@ body{
   overflow-x: hidden;
   padding-bottom: env(safe-area-inset-bottom, 16px); /* que no tape la barra/borde */
 }
+
 
 @media (orientation: landscape){
   body{ 
@@ -123,6 +134,7 @@ body{
   }
 }
 
+
 /* Subir todo el contenido visual sin mover el fondo */
 .app {
     position: relative;
@@ -134,17 +146,18 @@ body{
   padding-bottom: 10px;
   font-size: 15px;
 }
-/* Fija el ancho de la tarjeta del menú principal */
-#screen-main.card {
-  max-width: 796px;
-}
+
 /* Fija el ancho de la tarjeta de capítulos a la imagen */
 #screen-chapters.card {
   max-width: 796px;
 }
-/* Clase para los botones de musica */
+/* Fija el ancho de la tarjeta del menú principal (para que sea igual que la de capítulos) */
+#screen-main.card {
+  max-width: 796px;
+}
+/* Clase para los botones de musica (Un poco mas anchos para que quepa el texto) */
 .music-btn {
-    min-width: 80px; /* Un poco más anchos para el texto */
+    min-width: 85px; 
 }
 </style>
 </head>
@@ -158,10 +171,7 @@ body{
     
     <button id="btn-mode-ambient" class="langbtn music-btn active" data-i18n="btn_ambient">Ambiente</button>
     <button id="btn-mode-battle" class="langbtn music-btn" data-i18n="btn_battle">Combate</button>
-    
-    <div style="width: 8px;"></div>
-
-    <button id="btn-es" class="langbtn active" title="Español">ES</button>
+    <div style="width: 10px;"></div>     <button id="btn-es" class="langbtn active" title="Español">ES</button>
     <button id="btn-en" class="langbtn" title="English">EN</button>
   </header>
 
@@ -216,8 +226,8 @@ const I18N={
     select_chapter:'Selecciona capítulo',
     welcome:'Bienvenido/a a los archivos sonoros de SANCTORVM. Selecciona una aventura para ver sus capítulos.',
     select_note:'(Selecciona un capítulo)',
-    btn_ambient: 'Ambiente', // TEXTO NUEVO
-    btn_battle: 'Combate'    // TEXTO NUEVO
+    btn_ambient: 'Ambiente', // NUEVO TEXTO
+    btn_battle: 'Combate'    // NUEVO TEXTO
   },
   en:{
     app_title:'SOUND FILES',
@@ -234,8 +244,8 @@ const I18N={
     select_chapter:'Select chapter',
     welcome:'Welcome to SANCTORVM sound files. Pick an adventure to view its chapters.',
     select_note:'(Select a chapter)',
-    btn_ambient: 'Ambient', // TEXTO NUEVO
-    btn_battle: 'Battle'    // TEXTO NUEVO
+    btn_ambient: 'Ambient', // NUEVO TEXTO
+    btn_battle: 'Battle'    // NUEVO TEXTO
   }
 };
 const COLLECTION_KEYS=['Loud Laugh','Mad March','Red Radiance','Steel Steps','Whisper Walls'];
