@@ -142,6 +142,45 @@ body{
 .music-btn {
     min-width: 85px; 
 }
+  /* =========================================
+   AJUSTES PARA MÓVIL (Responsive)
+   ========================================= */
+@media (max-width: 640px) {
+  header {
+    flex-wrap: wrap;       /* Permite que los elementos bajen de línea */
+    justify-content: center; /* Centra todo */
+    gap: 8px;              /* Reduce un poco los huecos */
+  }
+
+  h1 {
+    width: 100%;           /* El título fuerza una línea nueva entera */
+    text-align: center;    /* Centramos el texto */
+    margin-bottom: 5px;    /* Un poco de aire antes de los botones */
+    font-size: 18px;       /* Un pelín más pequeño para que no agobie */
+  }
+
+  .spacer {
+    display: none;         /* Ocultamos el espaciador para que no moleste */
+  }
+
+  /* Hacemos que los botones se repartan el espacio */
+  .langbtn {
+    flex-grow: 1;          /* Los botones se estiran para llenar la línea */
+    text-align: center;
+    padding: 8px 4px;      /* Ajustamos el relleno interno */
+    font-size: 12px;       /* Texto un poco más pequeño para asegurar que cabe "Ambiente" */
+  }
+
+  /* En móvil quitamos el ancho mínimo fijo para que se adapten */
+  .music-btn {
+    min-width: auto;
+  }
+  
+  /* Ocultar el div separador que pusimos en el HTML para ganar espacio */
+  header > div {
+      display: none; 
+  }
+}
 </style>
 </head>
 <body>
