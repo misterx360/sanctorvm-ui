@@ -143,64 +143,44 @@ body{
     min-width: 85px; 
 }
 
-  /* =========================================
-   AJUSTES PARA MÓVIL (CORREGIDO)
+/* =========================================
+   AJUSTES PARA MÓVIL (4 BOTONES EN LÍNEA)
    ========================================= */
 @media (max-width: 640px) {
   header {
-    flex-wrap: wrap;       /* Permite varias líneas */
-    justify-content: space-between; /* Distribuye a los extremos */
-    gap: 5px;              /* Reduce huecos para que quepan */
+    display: flex;
+    flex-wrap: wrap;        /* Permite crear dos filas (Botones arriba, Título abajo) */
+    gap: 6px;               /* Espacio pequeño entre botones */
+    justify-content: space-between; /* Asegura que lleguen a los bordes */
   }
 
-  /* 1. EL TÍTULO: Baja al final (Fila 2) */
+  /* 1. EL TÍTULO: Lo mandamos al final (abajo) */
   h1 {
-    order: 10;             /* Orden alto para ir al final */
-    width: 100%;           /* Ocupa toda la línea de abajo */
-    text-align: center;    /* Centrado */
-    margin-top: 15px;      /* Separación con los botones */
+    order: 2;               /* Orden 2 (va después de los botones) */
+    width: 100%;            /* Ocupa toda la línea de abajo */
+    text-align: center;     /* Centrado */
+    margin-top: 15px;       /* Separación con los botones de arriba */
     font-size: 18px;
   }
 
-  /* 2. OCULTAR espaciador de escritorio */
-  .spacer {
-    display: none;
+  /* 2. COSAS QUE MOLESTAN: Las ocultamos */
+  .spacer, 
+  header > div {            /* Oculta el espaciador y el div de separación */
+    display: none !important;
   }
 
-  /* 3. SEPARADOR CENTRAL: Empuja los grupos (Fila 1, Centro) */
-  .button-separator {
-    display: block !important; /* Forzamos que se vea */
-    flex-grow: 1;              /* Ocupa todo el espacio vacío del medio */
-    order: 2;                  /* Se coloca entre los dos grupos */
-    min-width: 10px;           /* Espacio mínimo de seguridad */
-  }
-
-  /* 4. IZQUIERDA: Ambiente y Combate (Fila 1, Izquierda) */
-  #btn-mode-ambient, #btn-mode-battle {
-    order: 1;
-    flex-grow: 0; /* No estirar, tamaño natural */
-  }
-
-  /* 5. DERECHA: ES y EN (Fila 1, Derecha) */
-  #btn-es, #btn-en {
-    order: 3;
-    flex-grow: 0;
-  }
-
-  /* AJUSTES DE TAMAÑO PARA QUE QUEPAN */
-  .langbtn {
-    padding: 6px 8px;      /* Reducimos un poco el relleno */
-    font-size: 11px;       /* Fuente un pelín más pequeña */
-    height: 32px;          /* Altura fija para uniformidad */
-    line-height: 1;        /* Centrado vertical */
-    display: flex;
+  /* 3. LOS 4 BOTONES: Configuración para que quepan en una línea */
+  .langbtn, .music-btn {
+    order: 1;               /* Orden 1 (van arriba) */
+    flex: 1;                /* MAGIA: Todos crecen para ocupar el mismo espacio */
+    min-width: 0;           /* Permite que se encojan si el móvil es muy pequeño */
+    padding: 10px 2px;      /* Relleno vertical cómodo, horizontal mínimo */
+    font-size: 10px;        /* Letra ajustada para que quepa "AMBIENTE" */
+    text-align: center;     
+    white-space: nowrap;    /* Prohibido partir el texto en dos líneas */
+    display: flex;          /* Para centrar el texto perfectamente */
     align-items: center;
     justify-content: center;
-  }
-  
-  /* Quitamos el ancho mínimo en móvil para ahorrar espacio */
-  .music-btn {
-    min-width: auto;
   }
 }
 </style>
@@ -550,7 +530,14 @@ const PLAYLIST_AMBIENT = [
 const PLAYLIST_BATTLE = [
   // ¡AÑADE AQUÍ TUS CANCIONES DE COMBATE! 
   "https://files.catbox.moe/x27cfx.mp3",
-  "https://files.catbox.moe/cwu93h.mp3" 
+  "https://files.catbox.moe/cwu93h.mp3",
+  "https://files.catbox.moe/47dhn1.wav",
+  "https://files.catbox.moe/mieq9e.wav",
+  "https://files.catbox.moe/5murm6.wav",
+  "https://files.catbox.moe/sna1eh.wav",
+  "https://files.catbox.moe/no18f8.wav",
+  "https://files.catbox.moe/r56kte.wav",
+  "https://files.catbox.moe/faz6tc.wav"
 ];
 
 let currentPlaylistMode = 'ambient'; // Por defecto
